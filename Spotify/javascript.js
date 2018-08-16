@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     var cors = "https://cors-anywhere.herokuapp.com/"
-    var baseUrl = "https://api.spotify.com/v1"
+    var baseUrl = "https://api.spotify.com/v1/"
     var client_id = '3a13316200434809bcc4a3795fc632dc'; // Your client id
     var client_secret = '16d4345bbbeb4cf6b67439e2497ca9f3'; // Your secret
 
@@ -39,8 +39,8 @@ $(document).ready(function () {
 
 
     $.ajax({
-        url: cors + baseUrl +
-            method: "POST",
+        url: cors + "https://accounts.spotify.com/api/token",
+        method: "POST",
         headers: {
             'Authorization': 'Basic ' + btoa(client_id + ":" + client_secret),
         },
@@ -60,18 +60,27 @@ $(document).ready(function () {
         // dataType: "json"
     }).then(function (response) {
         console.log(response);
+
         var token = response.access_token;
+        console.log(token);
+
+        var searchParam = "artists/21mKp7DqtSNHhCAU2ugvUw";
 
         $.ajax({
-            url: "https://accounts.spotify.com/api/token",
+            url: cors + baseUrl + searchParam,
             method: "GET",
             headers: {
-                'Authorization': 'Bearer' + client_id + ":" + client_secret
+                'Authorization': 'Bearer ' + token
             },
-            form: {
-                grant_type: 'client_credentials'
+            success: function (result) {
+                //called when successful
+                console.log('success');
             },
-            dataType: json
+
+            error: function (result) {
+                //called when there is an error
+                console.log(result);
+            }
         }).then(function (response) {
             console.log(response);
         })
