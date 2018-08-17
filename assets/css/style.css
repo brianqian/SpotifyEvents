@@ -1,4 +1,52 @@
 body {
-    margin: 0;
+    margin: 1em;
     padding: 0;
+    background: #eaeaea;
+}
+
+header {
+    display: flex;
+    width: 90vw;
+    min-height: 5em;
+}
+
+div {
+    border: 1px black solid;
+    /* min-height: 50px; */
+}
+
+.search-area-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.top-logo {
+    flex: 8
+}
+
+.search-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-auto-rows: 1fr;
+}
+
+.search-results {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    width: 90vw;
+    margin: auto;
+    height: 100%;
+}
+
+.tophalf-wrapper {
+    height: 100vh;
+}
+
+#artistList {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    grid-column-end: -1;
 }

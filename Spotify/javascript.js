@@ -6,10 +6,6 @@ $(document).ready(function () {
     var client_id = "3a13316200434809bcc4a3795fc632dc";
     var client_secret = "16d4345bbbeb4cf6b67439e2497ca9f3"
     var artistPlaylistLink;
-    var authURL = "https://accounts.spotify.com/authorize?client_id=3a13316200434809bcc4a3795fc632dc&redirect_uri=https://www.getpostman.com/oauth2/callback&scope=user-library-read%20user-read-private%20user-top-read&response_type=token";
-    var accessToken;
-
-
 
     $.ajax({
         url: cors + "https://accounts.spotify.com/api/token",
