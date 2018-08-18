@@ -11,11 +11,10 @@ var performers = [];
 var events;
 var currentArtist;
 var currentArtistName;
-var artistPlaylistLink;
+var artistURI;
 
 
 function getEvents(id) {
-    console.log('starting getEvents');
     $.ajax({
         url: cors + baseUrl + event + "?performers.id=" + id + clientId,
         method: "GET"
@@ -28,8 +27,6 @@ function getEvents(id) {
             var eventText = $("<div class='event-card-text'>");
             var eventInterface = $("<div class='interface-e'>");
             eventInterface.append("<i class='fas fa-plus'></i>");
-            console.log('finished');
-
             var image = $("<img>");
             image.attr("src", events[i].performers[0].image);
             var venue = $("<p>").text(events[i].venue.name);
@@ -71,6 +68,7 @@ function getSpotify(artistName) {
         $.ajax({
             url: cors + spotifyBase + artistName + "&type=artist",
             method: "GET",
+            dataType: "json",
             headers: {
                 'Authorization': 'Bearer ' + token
             },
@@ -83,8 +81,8 @@ function getSpotify(artistName) {
             }
         }).then(function (response) {
             //this link goes into the iframe
-            artistPlaylistLink = response.uri;
-            console.log('response uri assigned');
+            artistURI = response.artists.items[0].uri;
+            console.log('response uri :' + artistURI);
 
         })
     })
@@ -129,8 +127,8 @@ $(document).ready(function () {
                 name.text(performers[i].short_name);
                 artistText.append(name);
                 // artistDiv.append(image);
-                artistDiv.attr("data-id", performers[i].id);
-                artistDiv.attr("data-name", performers[i].short_name)
+                artistText.attr("data-id", performers[i].id);
+                artistText.attr("data-name", performers[i].short_name)
                 artistDiv.append(artistText, artistInterface);
                 $("#artistList").append(artistDiv);
 
@@ -138,9 +136,12 @@ $(document).ready(function () {
         })
 
     })
-    $(document).on("click", ".artist-card", function () {
+    $(document).on("click", ".artist-card-text", function () {
         currentArtist = $(this).attr("data-id");
+        console.log("current artist id: " + currentArtist)
         currentArtistName = $(this).attr("data-name");
+        console.log(currentArtistName);
+
         getEvents(currentArtist);
         getSpotify(currentArtistName);
 
@@ -148,10 +149,12 @@ $(document).ready(function () {
     })
 
     $(document).on("click", ".playButton", function (e) {
-        if (!e) var e = window.event;
-        e.cancelBubble = true;
-        if (e.stopPropagation) e.stopPropagation();
-        $("#eventList").html("<button id='backToEvents'>X</button><p>Spotify Embed Player</p>");
+        var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+
+        console.log(embeddedPlayer);
+        $("#eventList").html(`<button id='backToEvents'>X</button>` + embeddedPlayer);
+
+
     });
 
     $(document).on("click", "#backToEvents", function () {
