@@ -10,9 +10,12 @@ var zipcode;
 var performers = [];
 var events;
 var currentArtist;
+var currentArtistName;
+var artistPlaylistLink;
 
 
 function getEvents(id) {
+    console.log('starting getEvents');
     $.ajax({
         url: cors + baseUrl + event + "?performers.id=" + id + clientId,
         method: "GET"
@@ -40,12 +43,55 @@ function getEvents(id) {
     })
 }
 
+function getSpotify(artistName) {
+    var spotifyBase = "https://api.spotify.com/v1/search?query="
+    var client_id = "3a13316200434809bcc4a3795fc632dc";
+    var client_secret = "16d4345bbbeb4cf6b67439e2497ca9f3"
 
+    $.ajax({
+        url: cors + "https://accounts.spotify.com/api/token",
+        method: "POST",
+        headers: {
+            'Authorization': 'Basic ' + btoa(client_id + ":" + client_secret),
+        },
+        data: {
+            contentType: 'application/x-www-form-urlencoded',
+            grant_type: 'client_credentials'
+        },
+        success: function (result) {
+            console.log('success');
+        },
+        error: function (result) {
+            console.log(result);
+        }
+    }).then(function (response) {
+        var token = response.access_token;
+        //search Param should be passed a value that equals seatgeekapi.performers[0]
+
+        $.ajax({
+            url: cors + spotifyBase + artistName + "&type=artist",
+            method: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (result) {
+                console.log('success');
+            },
+            error: function (result) {
+                //called when there is an error
+                console.log(result);
+            }
+        }).then(function (response) {
+            //this link goes into the iframe
+            artistPlaylistLink = response.uri;
+            console.log('response uri assigned');
+
+        })
+    })
+
+}
 
 $(document).ready(function () {
-
-
-
 
     $("#submitInput").on("click", function (event) {
 
@@ -84,19 +130,24 @@ $(document).ready(function () {
                 artistText.append(name);
                 // artistDiv.append(image);
                 artistDiv.attr("data-id", performers[i].id);
+                artistDiv.attr("data-name", performers[i].short_name)
                 artistDiv.append(artistText, artistInterface);
                 $("#artistList").append(artistDiv);
 
             }
         })
+
     })
     $(document).on("click", ".artist-card", function () {
         currentArtist = $(this).attr("data-id");
+        currentArtistName = $(this).attr("data-name");
         getEvents(currentArtist);
+        getSpotify(currentArtistName);
+
+
     })
 
     $(document).on("click", ".playButton", function (e) {
-        console.log('test');
         if (!e) var e = window.event;
         e.cancelBubble = true;
         if (e.stopPropagation) e.stopPropagation();
