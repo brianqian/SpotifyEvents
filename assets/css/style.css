@@ -67,6 +67,10 @@ div {
     text-align: center;
     line-height: 1.1;
     display: flex;
+<<<<<<< HEAD
+=======
+    /* flex-shrink: 0; */
+>>>>>>> 3b787e17d51cf3ee249401652c843f03964dc6e9
 }
 
 .event-card-text {
