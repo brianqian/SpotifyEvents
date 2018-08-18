@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     var cors = "https://cors-anywhere.herokuapp.com/"
-    var baseUrl = "https://api.spotify.com/v1/"
+    var baseUrl = "https://api.spotify.com/v1/search?query="
     var apiKey = btoa(client_id + ":" + client_secret);
     var client_id = "3a13316200434809bcc4a3795fc632dc";
     var client_secret = "16d4345bbbeb4cf6b67439e2497ca9f3"
@@ -33,10 +33,10 @@ $(document).ready(function () {
     }).then(function (response) {
         var token = response.access_token;
         //search Param should be passed a value that equals seatgeekapi.performers[0]
-        var searchParam = "artists/21mKp7DqtSNHhCAU2ugvUw";
+        var artistName = "odesza";
 
         $.ajax({
-            url: cors + baseUrl + searchParam,
+            url: cors + baseUrl + artistName + "&type=artist",
             method: "GET",
             headers: {
                 'Authorization': 'Bearer ' + token
