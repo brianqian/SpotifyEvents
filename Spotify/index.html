@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<!-- 
-Artist Search = #event
-Location Search = #location
-Radius search = #range
-Submit Button = #submit
-Events appended to .events
-Artsits appended to .artists
-
--->
-
 <html lang="en">
 
 <head>
@@ -17,8 +7,8 @@ Artsits appended to .artists
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Spotify Testing</title>
 </head>
 
 <body>
@@ -36,30 +26,20 @@ Artsits appended to .artists
                 </div>
             </div>
             <input class="btn btn-primary" id="submit" type="submit" value="Submit">
-        </form>
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        Artists
-                    </div>
-                    <div class="card-body">
-                        <div class="artists"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        Events
-                    </div>
-                    <div class="card-body events-card">
-                        <div class="events"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
+        </form>
+        <div class="search-results-wrapper">
+            <div class="search-results-list">
+
+            </div>
+            <div class="event-info-list">
+
+            </div>
+
+        </div>
+        <button id='spotifyLogin'>Login to Spotify Here</button>
+        <iframe src="https://open.spotify.com/embed?uri=spotify:artist:21mKp7DqtSNHhCAU2ugvUw
+" width="400" height="480" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="javascript.js"></script>
