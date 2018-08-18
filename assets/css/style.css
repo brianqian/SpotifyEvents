@@ -69,6 +69,7 @@ div {
 }
 
 .event-card-text {
+    min-height: 10em;
     flex: 12;
 }
 
