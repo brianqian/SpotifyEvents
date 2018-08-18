@@ -61,6 +61,29 @@ div {
     justify-content: center;
 }
 
+.event-card,
+.artist-card {
+    text-align: center;
+    line-height: 0;
+    display: flex;
+}
+
+.event-card-text {
+    flex: 12;
+}
+
+.artist-card-text {
+    flex: 8;
+}
+
+.interface-e {
+    flex: 1;
+}
+
+.interface-a {
+    flex: 2;
+}
+
 button {
     width: 10em;
 }
