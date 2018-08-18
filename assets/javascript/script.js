@@ -77,18 +77,23 @@ function getSpotify(artistName) {
             }
         }).then(function (response) {
             console.log(response);
-            //this link goes into the iframe
-            console.log('response uri :' + response.artists.items[0].uri);
-            var artistURI = response.artists.items[0].uri;
-            if (artistURI) {
-                $("#spotifyDiv").remove();
-            }
-            var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="100%" height="90%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+            $("#spotifyDiv").remove();
             var newDiv = $("<div id='spotifyDiv'>");
-            newDiv.append(`<button id='backToEvents'>X</button>` + embeddedPlayer);
-            newDiv.css("flex", "3");
-            $("#eventList").hide();
-            $(".search-results").append(newDiv);
+            if (!response.artists.items[0]) {
+                console.log('2');
+                newDiv.append("<p>Artist not found on Spotify!</p>")
+                newDiv.css("flex", "3");
+                $("#eventList").hide();
+                $(".search-results").append(newDiv);
+                return;
+            } else {
+                var artistURI = response.artists.items[0].uri;
+                var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="100%" height="90%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+                newDiv.append(`<button id='backToEvents'>X</button>` + embeddedPlayer);
+                newDiv.css("flex", "3");
+                $("#eventList").hide();
+                $(".search-results").append(newDiv);
+            }
 
         })
     })
@@ -102,6 +107,8 @@ $(document).ready(function () {
         event.preventDefault();
         $("#artistList").empty();
         search = $("#eventInput").val();
+        $("#eventList").show();
+        $("#spotifyDiv").remove();
         console.log(search);
         $.ajax({
             url: cors + baseUrl + performer + "?q=" + search + clientId,
@@ -144,6 +151,8 @@ $(document).ready(function () {
 
     })
     $(document).on("click", ".artist-card-text", function () {
+        $("#eventList").show();
+        $("#spotifyDiv").remove();
         currentArtist = $(this).attr("data-id");
         getEvents(currentArtist);
 
