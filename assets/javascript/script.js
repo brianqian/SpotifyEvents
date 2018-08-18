@@ -24,6 +24,7 @@ function getEvents(id) {
             var eventDiv = $("<div class='event-card'>");
             var eventText = $("<div class='event-card-text'>");
             var eventInterface = $("<div class='interface-e'>");
+            eventInterface.append("<i class='fas fa-plus'></i>");
             console.log('finished');
 
             var image = $("<img>");
@@ -65,20 +66,23 @@ $(document).ready(function () {
                 var artistDiv = $("<div class='artist-card'>");
                 var artistText = $("<div class='artist-card-text'>");
                 var artistInterface = $("<div class='interface-a'>");
+                var playButton = $("<div class='playButton'>")
+                var addButton = $("<div class='addButton'>");
+                addButton.append("<i class='fas fa-plus'></i>");
+                playButton.append("<i class='fas fa-play'></i>");
+                artistInterface.append(addButton, playButton);
 
                 var image = $("<img>");
                 // image.attr("src", performers[i].image ? performers[i].image : "https://via.placeholder.com/350x150");
-                // if (!(performers[i].image)) {
-                //     continue;
-                // }
+                if (!(performers[i].image)) {
+                    continue;
+                }
 
                 image.attr("src", performers[i].image);
                 var name = $("<p>");
                 name.text(performers[i].short_name);
                 artistText.append(name);
                 // artistDiv.append(image);
-                var playButton = $("<div class='play'>");
-                artistInterface.append(playButton);
                 artistDiv.attr("data-id", performers[i].id);
                 artistDiv.append(artistText, artistInterface);
                 $("#artistList").append(artistDiv);
@@ -91,11 +95,12 @@ $(document).ready(function () {
         getEvents(currentArtist);
     })
 
-    $(document).on("click", ".play", function (e) {
+    $(document).on("click", ".playButton", function (e) {
+        console.log('test');
         if (!e) var e = window.event;
         e.cancelBubble = true;
         if (e.stopPropagation) e.stopPropagation();
-        $(".events").html("<button id='backToEvents'>X</button><p>Spotify Embed Player</p>");
+        $("#eventList").html("<button id='backToEvents'>X</button><p>Spotify Embed Player</p>");
     });
 
     $(document).on("click", "#backToEvents", function () {
