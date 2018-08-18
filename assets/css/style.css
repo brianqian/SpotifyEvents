@@ -26,13 +26,13 @@ div {
 
 .search-bar {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    grid-auto-rows: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1em;
 }
 
 .search-results {
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: 2fr 3fr;
     width: 90vw;
     margin: auto;
     height: 100%;
@@ -40,13 +40,27 @@ div {
 
 .tophalf-wrapper {
     height: 100vh;
+    overflow: hidden;
 }
 
 #artistList {
     display: flex;
     flex-direction: column;
+    overflow: auto;
+}
+
+#eventList {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.submit-div {
+    margin: .5em;
+    display: flex;
+    justify-content: center;
 }
 
 button {
-    grid-column-end: -1;
+    width: 10em;
 }
