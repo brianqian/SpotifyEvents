@@ -11,7 +11,6 @@ var performers = [];
 var events;
 var currentArtist;
 var currentArtistName;
-var artistURI;
 
 
 function getEvents(id) {
@@ -41,9 +40,9 @@ function getEvents(id) {
 }
 
 function getSpotify(artistName) {
-    var spotifyBase = "https://api.spotify.com/v1/search?query="
+    var spotifyBase = "https://api.spotify.com/v1/search?query=";
     var client_id = "3a13316200434809bcc4a3795fc632dc";
-    var client_secret = "16d4345bbbeb4cf6b67439e2497ca9f3"
+    var client_secret = "16d4345bbbeb4cf6b67439e2497ca9f3";
 
     $.ajax({
         url: cors + "https://accounts.spotify.com/api/token",
@@ -55,13 +54,12 @@ function getSpotify(artistName) {
             contentType: 'application/x-www-form-urlencoded',
             grant_type: 'client_credentials'
         },
-        success: function (result) {
-            console.log('success');
-        },
+        success: function (result) {},
         error: function (result) {
             console.log(result);
         }
     }).then(function (response) {
+
         var token = response.access_token;
         //search Param should be passed a value that equals seatgeekapi.performers[0]
 
@@ -72,17 +70,18 @@ function getSpotify(artistName) {
             headers: {
                 'Authorization': 'Bearer ' + token
             },
-            success: function (result) {
-                console.log('success');
-            },
+            success: function (result) {},
             error: function (result) {
                 //called when there is an error
                 console.log(result);
             }
         }).then(function (response) {
+            console.log(response);
             //this link goes into the iframe
-            artistURI = response.artists.items[0].uri;
-            console.log('response uri :' + artistURI);
+            console.log('response uri :' + response.artists.items[0].uri);
+            var artistURI = response.artists.items[0].uri;
+            var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+            $("#eventList").html(`<button id='backToEvents'>X</button>` + embeddedPlayer);
 
         })
     })
@@ -114,6 +113,8 @@ $(document).ready(function () {
                 var addButton = $("<div class='addButton'>");
                 addButton.append("<i class='fas fa-plus'></i>");
                 playButton.append("<i class='fas fa-play'></i>");
+                playButton.attr("data-name", performers[i].short_name)
+
                 artistInterface.append(addButton, playButton);
 
                 var image = $("<img>");
@@ -128,7 +129,6 @@ $(document).ready(function () {
                 artistText.append(name);
                 // artistDiv.append(image);
                 artistText.attr("data-id", performers[i].id);
-                artistText.attr("data-name", performers[i].short_name)
                 artistDiv.append(artistText, artistInterface);
                 $("#artistList").append(artistDiv);
 
@@ -138,22 +138,13 @@ $(document).ready(function () {
     })
     $(document).on("click", ".artist-card-text", function () {
         currentArtist = $(this).attr("data-id");
-        console.log("current artist id: " + currentArtist)
-        currentArtistName = $(this).attr("data-name");
-        console.log(currentArtistName);
-
         getEvents(currentArtist);
-        getSpotify(currentArtistName);
-
 
     })
 
     $(document).on("click", ".playButton", function (e) {
-        var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
-
-        console.log(embeddedPlayer);
-        $("#eventList").html(`<button id='backToEvents'>X</button>` + embeddedPlayer);
-
+        currentArtistName = $(this).attr("data-name");
+        getSpotify(currentArtistName);
 
     });
 
