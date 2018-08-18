@@ -49,8 +49,9 @@ div {
 }
 
 #eventList {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1em;
     overflow: auto;
     flex: 3;
 }
@@ -66,7 +67,6 @@ div {
     text-align: center;
     line-height: 1.1;
     display: flex;
-    flex-shrink: 0;
 }
 
 .event-card-text {
