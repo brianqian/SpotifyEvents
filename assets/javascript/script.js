@@ -18,7 +18,7 @@ var geocoder;
 var input = document.getElementById('locationInput');
 var options = {
     componentRestrictions: {'country':'us'},
-    types: ['(regions)']
+    types: ['(cities)']
 }
 // ===========
 
@@ -127,18 +127,18 @@ $(document).ready(function () {
 
         geocoder.geocode({'latLng': latlng}, function(results)
         {
-            for(i = 0; i< results.length; i++)
+            console.log(results[0].address_components);
+
+            for(var i = 0; i<results[0].address_components.length; i++)
             {
-                for(var j=0; j<results[i].address_components.length; j++)
+                for(var k = 0; k<results[0].address_components[i].types.length; k++)
                 {
-                    for(var k=0; k<results[i].address_components[j].types.length; k++)
-                    {
-                        if(results[i].address_components[j].types[k] == "postal_code")
+                    if(results[0].address_components[i].types[k] == "postal_code")
                         {
-                            zipcode = results[i].address_components[j].short_name;
+                            console.log(results[0].address_components[i])
+                            zipcode = results[0].address_components[i].long_name;
                             console.log(zipcode);
                         }
-                    }
                 }
             }
         })
