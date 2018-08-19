@@ -26,7 +26,6 @@ function getEvents(id) {
             var eventText = $("<div class='event-card-text'>");
             var eventInterface = $("<div class='interface-e'>");
             eventInterface.append("<i class='fas fa-plus'></i>");
-            console.log('finished');
             var image = $("<img>");
             image.attr("src", events[i].performers[0].image);
             var venue = $("<p>").text(events[i].venue.name);
