@@ -14,6 +14,8 @@ var eventObj = {};
 var eventsObj = {};
 
 
+
+
 function getEvents(id) {
     $.ajax({
         url: cors + baseUrl + event + "?performers.id=" + id + clientId,
@@ -122,6 +124,7 @@ $(document).ready(function () {
                 venue: events[index].venue,
                 stats: events[index].stats
             };
+            userEvents[eventId] = eventObj;
             database.ref("/users/" + userId).update({
                 [eventId]: eventObj
             })
@@ -139,6 +142,7 @@ $(document).ready(function () {
                     venue: events[i].venue,
                     stats: events[i].stats
                 };
+                userEvents[eventId] = eventObj;
                 database.ref("/users/" + userId).update({
                     [eventId]: eventObj
                 })
