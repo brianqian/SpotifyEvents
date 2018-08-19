@@ -11,6 +11,13 @@ var performers = [];
 var events;
 var currentArtist;
 var currentArtistName;
+var autocomplete;
+var geocoder; 
+var input = document.getElementById('locationInput');
+var options = {
+    componentRestrictions: {'country':'us'},
+    types: ['(cities)']
+}
 
 
 function getEvents(id) {
@@ -46,6 +53,7 @@ function getSpotify(artistName) {
     var client_id = "3a13316200434809bcc4a3795fc632dc";
     var client_secret = "16d4345bbbeb4cf6b67439e2497ca9f3";
 
+
     $.ajax({
         url: cors + "https://accounts.spotify.com/api/token",
         method: "POST",
@@ -64,6 +72,28 @@ function getSpotify(artistName) {
 
         var token = response.access_token;
         //search Param should be passed a value that equals seatgeekapi.performers[0]
+
+
+
+    $.ajax({
+        url: cors + "https://accounts.spotify.com/api/token",
+        method: "POST",
+        headers: {
+            'Authorization': 'Basic ' + btoa(client_id + ":" + client_secret),
+        },
+        data: {
+            contentType: 'application/x-www-form-urlencoded',
+            grant_type: 'client_credentials'
+        },
+        success: function (result) {},
+        error: function (result) {
+            console.log(result);
+        }
+    }).then(function (response) {
+
+        var token = response.access_token;
+        //search Param should be passed a value that equals seatgeekapi.performers[0]
+
 
         $.ajax({
             url: cors + spotifyBase + artistName + "&type=artist",
@@ -104,9 +134,36 @@ function getSpotify(artistName) {
 
 $(document).ready(function () {
 
+    autocomplete = new google.maps.places.Autocomplete(input,options);
+
+
     $("#submitInput").on("click", function (event) {
 
         event.preventDefault();
+// ==============================
+        var location = autocomplete.getPlace();
+        geocoder = new google.maps.Geocoder();
+        lat = location['geometry']['location'].lat();
+        lng = location['geometry']['location'].lng();
+        var latlng = new google.maps.LatLng(lat,lng);
+
+        geocoder.geocode({'latLng': latlng}, function(results)
+        {
+            console.log(results[0].address_components);
+
+            for(var i = 0; i<results[0].address_components.length; i++)
+            {
+                for(var k = 0; k<results[0].address_components[i].types.length; k++)
+                {
+                    if(results[0].address_components[i].types[k] == "postal_code")
+                        {
+                            console.log(results[0].address_components[i])
+                            zipcode = results[0].address_components[i].long_name;
+                            console.log(zipcode);
+                        }
+                }
+            }
+        })
         $("#artistList").empty();
         search = $("#eventInput").val();
         $("#eventList").show();
