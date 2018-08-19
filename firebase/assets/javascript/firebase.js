@@ -40,7 +40,7 @@ $(document).ready(function () {
     $("#signUp").on("click", function (e) {
         e.preventDefault();
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function () {
-            var email = $("#loginText").val().trim();
+            var email = $("#emailText").val().trim();
             var password = $("#passwordText").val().trim();
             auth.createUserWithEmailAndPassword(email, password).catch(function (error) {
                 console.log(error.code);
@@ -70,8 +70,12 @@ $(document).ready(function () {
             //Add code here to update local object with variables saved in firebase
             database.ref("/users/" + userId).once('value', function (snapshot) {
                 console.log(snapshot.val());
+                if (snapshot.val()) {
+                    userEvents = snapshot.val();
+                } else {
+                    userEvents = {};
+                }
 
-                userEvents = snapshot.val();
             })
         } else {
             console.log("not logged in");

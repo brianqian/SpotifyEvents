@@ -29,8 +29,6 @@ function getEvents(id) {
             var eventText = $("<div class='event-card-text'>");
             var eventInterface = $("<div class='interface-e'>");
             eventInterface.append("<i class='fas fa-plus'></i>");
-            console.log('finished');
-
             var image = $("<img>");
             image.attr("src", events[i].performers[0].image);
             var venue = $("<p>").text(events[i].venue.name);
@@ -75,6 +73,8 @@ $(document).ready(function () {
                 var playButton = $("<div class='playButton'>")
                 var addButton = $("<div class='addButton'>");
                 addButton.append("<i class='fas fa-plus'></i>");
+                addButton.hide();
+                addButton.attr('data-id', performers[i].id);
                 playButton.append("<i class='fas fa-play'></i>");
                 artistInterface.append(addButton, playButton);
 
@@ -97,7 +97,9 @@ $(document).ready(function () {
         })
     })
     $(document).on("click", ".artist-card", function () {
+        $(".addButton").hide();
         currentArtist = $(this).attr("data-id");
+        $(`[data-id=${currentArtist}]`).show();
         getEvents(currentArtist);
     })
 
@@ -129,10 +131,13 @@ $(document).ready(function () {
                 [eventId]: eventObj
             })
         }
+        console.log("individual add: " + JSON.stringify(userEvents));
+
     })
 
     $(document).on("click", ".addButton", function () {
-        if (userId) {
+
+        if (userId && currentArtist === $(this).attr("data-id")) {
             for (var i = 0; i < events.length; i++) {
                 var eventId = events[i].id;
                 eventObj = {
@@ -148,6 +153,7 @@ $(document).ready(function () {
                 })
             }
         }
+        console.log("add all: " + JSON.stringify(userEvents));
     })
 
 });
