@@ -33,6 +33,8 @@ function getEvents(id) {
             var title = $("<h3>").text(events[i].title);
             var time = $("<p>").text(events[i].datetime_local)
             eventText.append(title, venue, address, time);
+            eventInterface.attr('data-event', events[i].id);
+            eventInterface.attr('data-index', i);
             eventDiv.append(eventText, eventInterface);
             $("#eventList").append(eventDiv);
         }
@@ -114,7 +116,7 @@ $(document).ready(function () {
             url: cors + baseUrl + performer + "?q=" + search + clientId,
             method: "GET"
         }).then(function (response) {
-            console.log(response);
+            console.log("performer", response);
             console.log(cors + baseUrl + event + "?q=" + search + clientId);
             performers = response.performers;
 
@@ -170,4 +172,38 @@ $(document).ready(function () {
         $("#spotifyDiv").remove();
     });
 
+    $(document).on("click", ".interface-e", function () {
+        if (userId) {
+            var eventId = $(this).attr('data-event');
+            var index = $(this).attr('data-index');
+            eventObj = {
+                datetime_local: events[index].datetime_local,
+                performers: events[index].performers,
+                short_title: events[index].short_title,
+                venue: events[index].venue,
+                stats: events[index].stats
+            };
+            database.ref("/users/" + userId).update({
+                [eventId]: eventObj
+            })
+        }
+    })
+
+    $(document).on("click", ".addButton", function () {
+        if (userId) {
+            for (var i = 0; i < events.length; i++) {
+                var eventId = events[i].id;
+                eventObj = {
+                    datetime_local: events[i].datetime_local,
+                    performers: events[i].performers,
+                    short_title: events[i].short_title,
+                    venue: events[i].venue,
+                    stats: events[i].stats
+                };
+                database.ref("/users/" + userId).update({
+                    [eventId]: eventObj
+                })
+            }
+        }
+    })
 });

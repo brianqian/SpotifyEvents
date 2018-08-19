@@ -101,3 +101,7 @@ div {
 button {
     width: 10em;
 }
+
+.hide {
+    display: none;
+}
