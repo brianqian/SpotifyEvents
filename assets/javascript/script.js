@@ -12,6 +12,15 @@ var events;
 var currentArtist;
 var currentArtistName;
 
+// =========
+var autocomplete;
+var geocoder; 
+var input = document.getElementById('locationInput');
+var options = {
+    componentRestrictions: {'country':'us'},
+    types: ['(regions)']
+}
+// ===========
 
 function getEvents(id) {
     $.ajax({
@@ -103,10 +112,37 @@ function getSpotify(artistName) {
 }
 
 $(document).ready(function () {
+// =============================
+    autocomplete = new google.maps.places.Autocomplete(input,options);
 
     $("#submitInput").on("click", function (event) {
 
         event.preventDefault();
+// ==============================
+        var location = autocomplete.getPlace();
+        geocoder = new google.maps.Geocoder();
+        lat = location['geometry']['location'].lat();
+        lng = location['geometry']['location'].lng();
+        var latlng = new google.maps.LatLng(lat,lng);
+
+        geocoder.geocode({'latLng': latlng}, function(results)
+        {
+            for(i = 0; i< results.length; i++)
+            {
+                for(var j=0; j<results[i].address_components.length; j++)
+                {
+                    for(var k=0; k<results[i].address_components[j].types.length; k++)
+                    {
+                        if(results[i].address_components[j].types[k] == "postal_code")
+                        {
+                            zipcode = results[i].address_components[j].short_name;
+                            console.log(zipcode);
+                        }
+                    }
+                }
+            }
+        })
+// =============
         $("#artistList").empty();
         search = $("#eventInput").val();
         $("#eventList").show();
