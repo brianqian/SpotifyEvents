@@ -13,15 +13,6 @@ var currentArtist;
 var eventObj = {};
 var eventsObj = {};
 
-function val2key(val, obj) {
-    for (var key in obj) {
-        if (obj[key] == val) {
-            return key;
-        }
-    }
-    return false;
-}
-
 
 function getEvents(id) {
     $.ajax({

@@ -15,7 +15,23 @@
     <div class="tophalf-wrapper">
         <header>
             <div class="top-logo">LOGO</div>
-            <div class="login-area">LOGIN AREA</div>
+            <div class="login-area">
+                <form>
+                    <span class='hideMe'>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="emailText">
+                    </span>
+                    <span class='hideMe'>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="passwordText">
+                    </span>
+                    <span class='hide' id='currentUser'></span>
+                    <br>
+                    <button type="submit" id="logIn">Log in</button>
+                    <button type="submit" id="signUp">Sign up</button>
+                    <button type="submit" class='hide' id="logOut">Log out</button>
+                </form>
+            </div>
         </header>
 
         <div class="search-bar">
@@ -124,5 +140,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
 <script src="./assets/javascript/script.js"></script>
-
+<script src="./assets/javascript/firebase.js"></script>
 </html>
