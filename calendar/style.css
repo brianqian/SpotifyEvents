@@ -1,0 +1,17 @@
+/**
+ * Float Layout Activity
+ **/
+
+  
+
+  
+  #calendar1 {
+    background-color: lightblue;
+    margin-bottom:20px;
+    margin-top:20px;
+    margin-right:20px;
+    height:50%;
+    width:50%;
+    float:left;
+  }
+  
