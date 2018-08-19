@@ -67,12 +67,12 @@ div {
     text-align: center;
     line-height: 1.1;
     display: flex;
-    /* flex-shrink: 0; */
+    <<<<<<< HEAD=======/* flex-shrink: 0; */
+    >>>>>>>3b787e17d51cf3ee249401652c843f03964dc6e9
 }
 
 .event-card-text {
     flex: 12;
-    max-height: 170px;
 }
 
 .artist-card-text {
@@ -85,7 +85,6 @@ div {
     flex: 1;
     align-items: center;
     justify-content: center;
-    max-height: 170px;
 }
 
 .interface-a {

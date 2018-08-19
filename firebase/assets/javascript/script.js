@@ -10,14 +10,10 @@ var zipcode;
 var performers = [];
 var events;
 var currentArtist;
-var currentArtistName;
-var autocomplete;
-var geocoder; 
-var input = document.getElementById('locationInput');
-var options = {
-    componentRestrictions: {'country':'us'},
-    types: ['(cities)']
-}
+var eventObj = {};
+var eventsObj = {};
+
+
 
 
 function getEvents(id) {
@@ -48,132 +44,24 @@ function getEvents(id) {
     })
 }
 
-function getSpotify(artistName) {
-    var spotifyBase = "https://api.spotify.com/v1/search?query=";
-    var client_id = "3a13316200434809bcc4a3795fc632dc";
-    var client_secret = "16d4345bbbeb4cf6b67439e2497ca9f3";
 
-
-    $.ajax({
-        url: cors + "https://accounts.spotify.com/api/token",
-        method: "POST",
-        headers: {
-            'Authorization': 'Basic ' + btoa(client_id + ":" + client_secret),
-        },
-        data: {
-            contentType: 'application/x-www-form-urlencoded',
-            grant_type: 'client_credentials'
-        },
-        success: function (result) {},
-        error: function (result) {
-            console.log(result);
-        }
-    }).then(function (response) {
-
-        var token = response.access_token;
-        //search Param should be passed a value that equals seatgeekapi.performers[0]
-
-
-
-    $.ajax({
-        url: cors + "https://accounts.spotify.com/api/token",
-        method: "POST",
-        headers: {
-            'Authorization': 'Basic ' + btoa(client_id + ":" + client_secret),
-        },
-        data: {
-            contentType: 'application/x-www-form-urlencoded',
-            grant_type: 'client_credentials'
-        },
-        success: function (result) {},
-        error: function (result) {
-            console.log(result);
-        }
-    }).then(function (response) {
-
-        var token = response.access_token;
-        //search Param should be passed a value that equals seatgeekapi.performers[0]
-
-
-        $.ajax({
-            url: cors + spotifyBase + artistName + "&type=artist",
-            method: "GET",
-            dataType: "json",
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            success: function (result) {},
-            error: function (result) {
-                //called when there is an error
-                console.log(result);
-            }
-        }).then(function (response) {
-            console.log(response);
-            $("#spotifyDiv").remove();
-            var newDiv = $("<div id='spotifyDiv'>");
-            if (!response.artists.items[0]) {
-                console.log('2');
-                newDiv.append("<p>Artist not found on Spotify!</p>")
-                newDiv.css("flex", "3");
-                $("#eventList").hide();
-                $(".search-results").append(newDiv);
-                return;
-            } else {
-                var artistURI = response.artists.items[0].uri;
-                var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="100%" height="90%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
-                newDiv.append(`<button id='backToEvents'>X</button>` + embeddedPlayer);
-                newDiv.css("flex", "3");
-                $("#eventList").hide();
-                $(".search-results").append(newDiv);
-            }
-
-        })
-    })
-
-}
 
 $(document).ready(function () {
 
-    autocomplete = new google.maps.places.Autocomplete(input,options);
+
 
 
     $("#submitInput").on("click", function (event) {
 
         event.preventDefault();
-// ==============================
-        var location = autocomplete.getPlace();
-        geocoder = new google.maps.Geocoder();
-        lat = location['geometry']['location'].lat();
-        lng = location['geometry']['location'].lng();
-        var latlng = new google.maps.LatLng(lat,lng);
-
-        geocoder.geocode({'latLng': latlng}, function(results)
-        {
-            console.log(results[0].address_components);
-
-            for(var i = 0; i<results[0].address_components.length; i++)
-            {
-                for(var k = 0; k<results[0].address_components[i].types.length; k++)
-                {
-                    if(results[0].address_components[i].types[k] == "postal_code")
-                        {
-                            console.log(results[0].address_components[i])
-                            zipcode = results[0].address_components[i].long_name;
-                            console.log(zipcode);
-                        }
-                }
-            }
-        })
         $("#artistList").empty();
         search = $("#eventInput").val();
-        $("#eventList").show();
-        $("#spotifyDiv").remove();
         console.log(search);
         $.ajax({
             url: cors + baseUrl + performer + "?q=" + search + clientId,
             method: "GET"
         }).then(function (response) {
-            console.log("performer", response);
+            console.log(response);
             console.log(cors + baseUrl + event + "?q=" + search + clientId);
             performers = response.performers;
 
@@ -185,9 +73,9 @@ $(document).ready(function () {
                 var playButton = $("<div class='playButton'>")
                 var addButton = $("<div class='addButton'>");
                 addButton.append("<i class='fas fa-plus'></i>");
+                addButton.hide();
+                addButton.attr('data-id', performers[i].id);
                 playButton.append("<i class='fas fa-play'></i>");
-                playButton.attr("data-name", performers[i].short_name)
-
                 artistInterface.append(addButton, playButton);
 
                 var image = $("<img>");
@@ -201,32 +89,30 @@ $(document).ready(function () {
                 name.text(performers[i].short_name);
                 artistText.append(name);
                 // artistDiv.append(image);
-                artistText.attr("data-id", performers[i].id);
+                artistDiv.attr("data-id", performers[i].id);
                 artistDiv.append(artistText, artistInterface);
                 $("#artistList").append(artistDiv);
 
             }
         })
-
     })
-    $(document).on("click", ".artist-card-text", function () {
-        $("#eventList").show();
-        $("#spotifyDiv").remove();
+    $(document).on("click", ".artist-card", function () {
+        $(".addButton").hide();
         currentArtist = $(this).attr("data-id");
+        $(`[data-id=${currentArtist}]`).show();
         getEvents(currentArtist);
-
     })
 
     $(document).on("click", ".playButton", function (e) {
-        currentArtistName = $(this).attr("data-name");
-        getSpotify(currentArtistName);
-
-
+        console.log('test');
+        if (!e) var e = window.event;
+        e.cancelBubble = true;
+        if (e.stopPropagation) e.stopPropagation();
+        $("#eventList").html("<button id='backToEvents'>X</button><p>Spotify Embed Player</p>");
     });
 
     $(document).on("click", "#backToEvents", function () {
-        $("#eventList").show();
-        $("#spotifyDiv").remove();
+        getEvents(currentArtist);
     });
 
     $(document).on("click", ".interface-e", function () {
@@ -240,14 +126,18 @@ $(document).ready(function () {
                 venue: events[index].venue,
                 stats: events[index].stats
             };
+            userEvents[eventId] = eventObj;
             database.ref("/users/" + userId).update({
                 [eventId]: eventObj
             })
         }
+        console.log("individual add: " + JSON.stringify(userEvents));
+
     })
 
     $(document).on("click", ".addButton", function () {
-        if (userId) {
+
+        if (userId && currentArtist === $(this).attr("data-id")) {
             for (var i = 0; i < events.length; i++) {
                 var eventId = events[i].id;
                 eventObj = {
@@ -257,10 +147,29 @@ $(document).ready(function () {
                     venue: events[i].venue,
                     stats: events[i].stats
                 };
+                userEvents[eventId] = eventObj;
                 database.ref("/users/" + userId).update({
                     [eventId]: eventObj
                 })
             }
         }
+        console.log("add all: " + JSON.stringify(userEvents));
     })
+
 });
+
+
+/**
+ * for (var key in validation_messages) {
+    // skip loop if the property is from prototype
+    if (!validation_messages.hasOwnProperty(key)) continue;
+
+    var obj = validation_messages[key];
+    for (var prop in obj) {
+        // skip loop if the property is from prototype
+        if(!obj.hasOwnProperty(prop)) continue;
+
+        // your code
+        alert(prop + " = " + obj[prop]);
+    }
+} */
