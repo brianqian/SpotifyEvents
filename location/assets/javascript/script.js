@@ -19,6 +19,7 @@ var geocoder;
 var range;
 
 
+
 function fillEvents(events) {
     console.log(events);
     $("#eventList").empty();
@@ -153,6 +154,38 @@ function getSpotify(artistName) {
 
 }
 
+function getArtists(performers) {
+    for (var i = 0; i < performers.length; i++) {
+        var artistDiv = $("<div class='artist-card'>");
+        var artistText = $("<div class='artist-card-text'>");
+        var artistInterface = $("<div class='interface-a'>");
+        var playButton = $("<div class='playButton'>");
+        playButton.attr("data-name", performers[i].name);
+        var addButton = $("<div class='addButton'>");
+        addButton.append("<i class='fas fa-plus'></i>");
+        addButton.hide();
+        addButton.attr('data-id', performers[i].id);
+        playButton.append("<i class='fas fa-play'></i>");
+        artistInterface.append(addButton, playButton);
+
+        var image = $("<img>");
+        // image.attr("src", performers[i].image ? performers[i].image : "https://via.placeholder.com/350x150");
+        if (!(performers[i].image)) {
+            continue;
+        }
+
+        image.attr("src", performers[i].image);
+        var name = $("<p>");
+        name.text(performers[i].short_name);
+        artistText.append(name);
+        // artistDiv.append(image);
+        artistText.attr("data-id", performers[i].id);
+        artistDiv.append(artistText, artistInterface);
+        $("#artistList").append(artistDiv);
+
+    }
+}
+
 function displayError() {
     $("#eventList").hide();
     var newDiv = $("<div id='eventError'>");
@@ -177,7 +210,7 @@ $(document).ready(function () {
         zipcode = "";
         range = "";
         event.preventDefault();
-
+        $("#eventList").empty();
         var location = autocomplete.getPlace();
         geocoder = new google.maps.Geocoder();
         if ($("#locationInput").val()) {
@@ -195,9 +228,30 @@ $(document).ready(function () {
                         if (results[0].address_components[i].types[k] == "postal_code") {
                             // console.log(results[0].address_components[i])
                             zipcode = results[0].address_components[i].long_name;
-                            // console.log(zipcode);
+                            console.log(zipcode);
                         }
                     }
+                }
+                if (!(search) && zipcode !== "") {
+                    console.log("nosearch yeszip" + zipcode);
+                    $.ajax({
+                        url: cors + baseUrl + "/events?geoip=" + zipcode + "&sort=score.desc" + clientId + "&taxonomies.name=concert",
+                        method: "GET"
+                    }).then(function (response) {
+                        console.log(response);
+                        events = response.events
+                        fillEvents(events);
+                    })
+                }
+                else if (!(search) && zipcode !== "" && range !== "") {
+                    $.ajax({
+                        url: cors + baseUrl + "/events?geoip=" + zipcode + "&sort=score.desc" + "&range=" + range + clientId + "&taxonomies.name=concert",
+                        method: "GET"
+                    }).then(function (response) {
+                        console.log(response);
+                        events = response.events
+                        fillEvents(events);
+                    })
                 }
             })
         }
@@ -207,46 +261,21 @@ $(document).ready(function () {
         $("#eventList").show();
         $("#spotifyDiv").remove();
         console.log(search);
-        $.ajax({
-            url: cors + baseUrl + performer + "?q=" + search + clientId,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
-            console.log(cors + baseUrl + event + "?q=" + search + clientId);
-            performers = response.performers;
-
-
-            for (var i = 0; i < performers.length; i++) {
-                var artistDiv = $("<div class='artist-card'>");
-                var artistText = $("<div class='artist-card-text'>");
-                var artistInterface = $("<div class='interface-a'>");
-                var playButton = $("<div class='playButton'>");
-                playButton.attr("data-name", performers[i].name);
-                var addButton = $("<div class='addButton'>");
-                addButton.append("<i class='fas fa-plus'></i>");
-                addButton.hide();
-                addButton.attr('data-id', performers[i].id);
-                playButton.append("<i class='fas fa-play'></i>");
-                artistInterface.append(addButton, playButton);
-
-                var image = $("<img>");
-                // image.attr("src", performers[i].image ? performers[i].image : "https://via.placeholder.com/350x150");
-                if (!(performers[i].image)) {
-                    continue;
-                }
-
-                image.attr("src", performers[i].image);
-                var name = $("<p>");
-                name.text(performers[i].short_name);
-                artistText.append(name);
-                // artistDiv.append(image);
-                artistText.attr("data-id", performers[i].id);
-                artistDiv.append(artistText, artistInterface);
-                $("#artistList").append(artistDiv);
-
-            }
-        })
-    })
+        console.log("before if" + zipcode);
+        if (search) {
+            console.log("search");
+            $.ajax({
+                url: cors + baseUrl + performer + "?q=" + search + clientId,
+                method: "GET"
+            }).then(function (response) {
+                console.log(response);
+                console.log(cors + baseUrl + event + "?q=" + search + clientId);
+                performers = response.performers;
+                getArtists(performers);
+            })
+        }
+        
+    });
     $(document).on("click", ".artist-card-text", function () {
         currentArtist = $(this).attr("data-id");
         console.log(currentArtist);
@@ -282,7 +311,9 @@ $(document).ready(function () {
                 performers: events[index].performers,
                 short_title: events[index].short_title,
                 venue: events[index].venue,
-                stats: events[index].stats
+                stats: events[index].stats,
+                id: eventId,
+                url: events[index].url
             };
             userEvents[eventId] = eventObj;
             database.ref("/users/" + userId).update({
@@ -303,7 +334,9 @@ $(document).ready(function () {
                     performers: events[i].performers,
                     short_title: events[i].short_title,
                     venue: events[i].venue,
-                    stats: events[i].stats
+                    stats: events[i].stats,
+                    id: eventId,
+                    url: events[i].url
                 };
                 userEvents[eventId] = eventObj;
                 database.ref("/users/" + userId).update({
