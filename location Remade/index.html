@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+        crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.1/fullcalendar.min.css" type="text/css" rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>EventSpotter</title>
+</head>
+
+<body>
+    <div class="tophalf-wrapper">
+        <header>
+            <div class="top-logo">LOGO</div>
+            <div class="login-area">
+                <form>
+                    <span class='hideMe'>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="emailText">
+                    </span>
+                    <span class='hideMe'>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="passwordText">
+                    </span>
+                    <span class='hide' id='currentUser'></span>
+                    <br>
+                    <button type="submit" id="logIn">Log in</button>
+                    <button type="submit" id="signUp">Sign up</button>
+                    <button type="submit" class='hide' id="logOut">Log out</button>
+                </form>
+            </div>
+        </header>
+        <form>
+            <div class="search-bar">
+                <div class="artist-search search">
+                    <label for="eventInput">Artist/Event: </label>
+                    <input type="search" id="eventInput" placeholder="Event, Artist, Venue">
+                </div>
+                <div class="location-search search">
+                    <label for="locationInput">Location: </label>
+                    <input type="text" id="locationInput" placeholder="City">
+                </div>
+                <div class="radius-search search">
+                    <label for="rangeInput">Radius: </label>
+
+                    <input type="number" id="rangeInput" placeholder="Range(mi)">
+                </div>
+            </div>
+            <div class="submit-div">
+                <button type="submit" id="submitInput">Search!</button>
+            </div>
+        </form>
+
+        <div class="search-results">
+            <div id="artistList">
+                <div class="artist-card">
+                    <div class="artist-card-text">
+                        <h3>Artist Name</h3>
+                    </div>
+                    <div class="interface-a">
+                    </div>
+                </div>
+            </div>
+            <div id="eventList">
+                <div class="event-card">
+                    <div class="event-card-text">
+                        <h3>Event Name</h3>
+                        <p>Date</p>
+                        <p>Venue/Address</p>
+                        <p>Time</p>
+                    </div>
+                    <div class="interface-e">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="remove">
+            <!-- <button id="button1">Remove event1</button>
+            <button id="button2">Remove event2</button> -->
+            <button id="button3">Remove All Events</button>
+            <button id="reformat">Reformat View</button>
+        </div>
+        <div id="calendar1"></div>
+        <!-- ================================ -->
+        <div id="fullCalModal" class="modal fade" tabindex="-1" role="dialog" aria-labelby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">close</span>
+                        </button>
+                        <h4 id="modalTitle" class="modal-title"></h4>
+                    </div>
+                    <div id="Venue" class="modal-body">Venue : </div>
+                    <div id="Time" class="modal-body">Time : </div>
+                    <div id="Price" class="modal-body">Price : </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <!-- <a class="btn btn-primary" id="eventUrl" target="_blank">Remove Event</a> -->
+                        <button type="button" id="removeEvent" data-dismiss="modal">Remove Event</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+
+
+<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<script src="./assets/javascript/script.js"></script>
+<script src="./assets/javascript/firebase.js"></script>
+<script src="./assets/javascript/cal.js"></script>
+
+</html>
