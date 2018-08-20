@@ -44,7 +44,7 @@ function fillEvents(events) {
 
 
 function getEvents(id) {
-    $("#eventError").remove();
+    $("#eventError").hide();
     if (zipcode && range) {
         $.ajax({
             url: cors + baseUrl + event + "?performers.id=" + id + geoip + zipcode + "&range=" + range + "mi" + clientId,
@@ -187,11 +187,8 @@ function getArtists(performers) {
 }
 
 function displayError() {
-    $("#eventList").hide();
-    var newDiv = $("<div id='eventError'>");
-    newDiv.css("flex", "3");
-    newDiv.append("Sorry, no events found, please try another search");
-    $(".search-results").append(newDiv);
+    $("#eventList").empty();
+    $("#eventList").text("Sorry, no events found, please try another ewrwerwersearch");
 }
 
 $(document).ready(function () {
@@ -277,6 +274,7 @@ $(document).ready(function () {
         
     });
     $(document).on("click", ".artist-card-text", function () {
+        $('#eventError').remove();
         currentArtist = $(this).attr("data-id");
         console.log(currentArtist);
         $("#eventList").show();
