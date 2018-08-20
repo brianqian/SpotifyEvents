@@ -17,6 +17,8 @@ var userEvents = {};
 var autocomplete;
 var geocoder;
 var range;
+var calendarSource = [];
+
 
 
 
@@ -242,8 +244,7 @@ $(document).ready(function () {
                         events = response.events
                         fillEvents(events);
                     })
-                }
-                else if (!(search) && zipcode !== "" && range !== "") {
+                } else if (!(search) && zipcode !== "" && range !== "") {
                     $.ajax({
                         url: cors + baseUrl + "/events?geoip=" + zipcode + "&sort=score.desc" + "&range=" + range + clientId + "&taxonomies.name=concert",
                         method: "GET"
@@ -274,7 +275,7 @@ $(document).ready(function () {
                 getArtists(performers);
             })
         }
-        
+
     });
     $(document).on("click", ".artist-card-text", function () {
         currentArtist = $(this).attr("data-id");
@@ -344,6 +345,7 @@ $(document).ready(function () {
                 })
             }
         }
+        addToCalendar();
         console.log("add all: " + JSON.stringify(userEvents));
     })
 

@@ -66,6 +66,14 @@ $(document).ready(function () {
             $("#signUp").addClass('hide');
             $("#logOut").removeClass('hide');
 
+            database.ref("/users/" + userId).once('value', function (snapshot) {
+                if (snapshot.val()) {
+                    userEvents = snapshot.val();
+
+                } else {
+                    userEvents = {};
+                }
+            })
         } else {
             console.log("not logged in");
         }
