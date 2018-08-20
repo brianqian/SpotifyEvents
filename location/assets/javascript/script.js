@@ -43,7 +43,7 @@ function fillEvents(events) {
 
 
 function getEvents(id) {
-
+    $("#eventError").remove();
     if (zipcode && range) {
         $.ajax({
             url: cors + baseUrl + event + "?performers.id=" + id + geoip + zipcode + "&range=" + range + "mi" + clientId,
@@ -52,7 +52,12 @@ function getEvents(id) {
             console.log(result);
             $("#eventList").empty();
             events = result.events;
-            fillEvents(events);
+            if (events.length === 0) {
+                displayError();
+            } else {
+                $("#eventList").show();
+                fillEvents(events);
+            }
         });
     } else if (zipcode) {
         $.ajax({
@@ -62,17 +67,27 @@ function getEvents(id) {
             console.log(result);
             $("#eventList").empty();
             events = result.events;
-            fillEvents(events);
+            if (events.length === 0) {
+                displayError();
+            } else {
+                $("#eventList").show();
+                fillEvents(events);
+            }
         })
     } else {
         $.ajax({
             url: cors + baseUrl + event + "?performers.id=" + id + clientId,
             method: "GET"
         }).then(function (result) {
-            console.log(result);
+            console.log("Performer search only: " + result);
             $("#eventList").empty();
             events = result.events;
-            fillEvents(events);
+            if (events.length === 0) {
+                displayError();
+            } else {
+                $("#eventList").show();
+                fillEvents(events);
+            }
         })
     }
 }
@@ -115,10 +130,10 @@ function getSpotify(artistName) {
             }
         }).then(function (response) {
             console.log(response);
+            $("#eventError").remove();
             $("#spotifyDiv").remove();
             var newDiv = $("<div id='spotifyDiv'>");
             if (!response.artists.items[0]) {
-                console.log('2');
                 newDiv.append("<p>Artist not found on Spotify!</p>")
                 newDiv.css("flex", "3");
                 $("#eventList").hide();
@@ -138,6 +153,13 @@ function getSpotify(artistName) {
 
 }
 
+function displayError() {
+    $("#eventList").hide();
+    var newDiv = $("<div id='eventError'>");
+    newDiv.css("flex", "3");
+    newDiv.append("Sorry, no events found, please try another search");
+    $(".search-results").append(newDiv);
+}
 
 $(document).ready(function () {
     var input = document.getElementById('locationInput');
