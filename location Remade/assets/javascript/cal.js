@@ -10,7 +10,7 @@ function addToCalendar() {
         }
 
         for (var i = 0; i < calendarSource.length; i++) {
-            if (tempObj.id === calendarSource[i].id) {
+            if (tempObj.id == calendarSource[i].id) {
                 noRepeat = false;
             }
         }
@@ -18,8 +18,6 @@ function addToCalendar() {
             calendarSource.push(tempObj);
         }
     }
-    console.log('calendarSource: ' + calendarSource);
-    console.log('cal src2: ' + JSON.stringify(calendarSource));
 
 
 
@@ -46,7 +44,7 @@ $(document).ready(function () {
         eventLimit: true, // allow "more" link when too many events
         events: calendarSource,
         eventClick: function (event, jsEvent, view) {
-            currentEventId = event._id;
+            currentEventId = event.id;
             console.log(event);
             $('#modalTitle').html(event.title);
             $('#Venue').html(event.description);
@@ -60,7 +58,19 @@ $(document).ready(function () {
     });
 
     $("#removeEvent").on("click", function () {
+
         $("#calendar1").fullCalendar('removeEvents', currentEventId)
+        var temp = database.ref("/users/" + userId);
+        temp.child(currentEventId).remove();
+        delete userEvents[currentEventId];
+        var index = 0;
+        for (var i = 0; i < calendarSource.length; i++) {
+            if (calendarSource[i].id === currentEventId) {
+                index = i;
+            }
+        }
+        calendarSource.splice(index, 1);
+
     })
     $("#reformat").on("click", function () {
         console.log("why not");
@@ -80,8 +90,8 @@ $(document).ready(function () {
         $("#calendar1").fullCalendar('removeEvents');
         userEvents = {};
         calendarSource = [];
-        var temp = database.ref("/user/" + userId)
+        var temp = database.ref("/users/" + userId);
         temp.remove();
 
-    })
+    });
 });

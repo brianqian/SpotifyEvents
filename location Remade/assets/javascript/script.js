@@ -46,7 +46,6 @@ function fillEvents(events) {
 
 
 function getEvents(id) {
-    $("#eventError").remove();
     if (zipcode && range) {
         $.ajax({
             url: cors + baseUrl + event + "?performers.id=" + id + geoip + zipcode + "&range=" + range + "mi" + clientId,
@@ -133,7 +132,6 @@ function getSpotify(artistName) {
             }
         }).then(function (response) {
             console.log(response);
-            $("#eventError").remove();
             $("#spotifyDiv").remove();
             var newDiv = $("<div id='spotifyDiv'>");
             if (!response.artists.items[0]) {
@@ -189,11 +187,8 @@ function getArtists(performers) {
 }
 
 function displayError() {
-    $("#eventList").hide();
-    var newDiv = $("<div id='eventError'>");
-    newDiv.css("flex", "3");
-    newDiv.append("Sorry, no events found, please try another search");
-    $(".search-results").append(newDiv);
+    $("#eventList").empty();
+    $("#eventList").text("Sorry, no events found. Please try another search");
 }
 
 $(document).ready(function () {
@@ -240,9 +235,15 @@ $(document).ready(function () {
                         url: cors + baseUrl + "/events?geoip=" + zipcode + "&sort=score.desc" + clientId + "&taxonomies.name=concert",
                         method: "GET"
                     }).then(function (response) {
-                        console.log(response);
+                        console.log("only location: " + response);
                         events = response.events
-                        fillEvents(events);
+                        console.log('only loc events: ' + JSON.stringify(events));
+                        if (events.length === 0) {
+                            displayError();
+                        } else {
+                            $("#eventList").show();
+                            fillEvents(events);
+                        }
                     })
                 } else if (!(search) && zipcode !== "" && range !== "") {
                     $.ajax({
@@ -251,7 +252,12 @@ $(document).ready(function () {
                     }).then(function (response) {
                         console.log(response);
                         events = response.events
-                        fillEvents(events);
+                        if (events.length === 0) {
+                            displayError();
+                        } else {
+                            $("#eventList").show();
+                            fillEvents(events);
+                        }
                     })
                 }
             })
