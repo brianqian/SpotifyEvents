@@ -46,7 +46,7 @@ function getEvents(id) {
 
     if (zipcode && range) {
         $.ajax({
-            url: cors + baseUrl + event + "?performers.id=" + id + geoip + zipcode + "&range=" + range + "mi" + clientId,
+            url: cors + baseUrl + event + "?performers.id=" + id + geoip + zipcode + "&range=" + range + "mi" + '&taxonomies.name=concert' + clientId,
             method: "GET"
         }).then(function (result) {
             console.log(result);
@@ -54,9 +54,20 @@ function getEvents(id) {
             events = result.events;
             fillEvents(events);
         });
+    } else if (!(id) && zipcode) {
+        console.log("no id, has zipcode");
+        $.ajax({
+            url: cors + baseUrl + event + "?geoip=" + zipcode + "&taxonomies.name=concert" + clientId,
+            method: "GET"
+        }).then(function (result) {
+            console.log(result);
+            $("#eventList").empty();
+            events = result.events;
+            fillEvents(events);
+        })
     } else if (zipcode) {
         $.ajax({
-            url: cors + baseUrl + event + "?performers.id=" + id + geoip + zipcode + clientId,
+            url: cors + baseUrl + event + "?performers.id=" + id + geoip + zipcode + "&taxonomies.name=concert" + clientId,
             method: "GET"
         }).then(function (result) {
             console.log(result);
@@ -65,8 +76,9 @@ function getEvents(id) {
             fillEvents(events);
         })
     } else {
+        console.log("else");
         $.ajax({
-            url: cors + baseUrl + event + "?performers.id=" + id + clientId,
+            url: cors + baseUrl + event + "?performers.id=" + id + '&taxonomies.name=concert' + clientId,
             method: "GET"
         }).then(function (result) {
             console.log(result);
