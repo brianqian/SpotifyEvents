@@ -10,21 +10,8 @@ var zipcode;
 var performers = [];
 var events;
 var currentArtist;
-var eventObj = {};
-var eventsObj = {};
 var currentArtistName;
-var userEvents = {};
 
-
-// =========
-var autocomplete;
-var geocoder; 
-var input = document.getElementById('locationInput');
-var options = {
-    componentRestrictions: {'country':'us'},
-    types: ['(regions)']
-}
-// ===========
 
 function getEvents(id) {
     $.ajax({
@@ -115,67 +102,11 @@ function getSpotify(artistName) {
 
 }
 
-
 $(document).ready(function () {
-// =============================
-    autocomplete = new google.maps.places.Autocomplete(input,options);
-
-
-
 
     $("#submitInput").on("click", function (event) {
 
         event.preventDefault();
-<<<<<<< HEAD
-<<<<<<< HEAD
-// ==============================
-=======
->>>>>>> e3e67d6bfe7a793eb0306cbbe0bd8e9e1f41d2f9
-        var location = autocomplete.getPlace();
-        geocoder = new google.maps.Geocoder();
-        lat = location['geometry']['location'].lat();
-        lng = location['geometry']['location'].lng();
-<<<<<<< HEAD
-        var latlng = new google.maps.LatLng(lat,lng);
-
-        geocoder.geocode({'latLng': latlng}, function(results)
-        {
-            for(i = 0; i< results.length; i++)
-            {
-                for(var j=0; j<results[i].address_components.length; j++)
-                {
-                    for(var k=0; k<results[i].address_components[j].types.length; k++)
-                    {
-                        if(results[i].address_components[j].types[k] == "postal_code")
-                        {
-                            zipcode = results[i].address_components[j].short_name;
-                            console.log(zipcode);
-                        }
-=======
-        var latlng = new google.maps.LatLng(lat, lng);
-
-        geocoder.geocode({
-            'latLng': latlng
-        }, function (results) {
-            console.log(results[0].address_components);
-
-            for (var i = 0; i < results[0].address_components.length; i++) {
-                for (var k = 0; k < results[0].address_components[i].types.length; k++) {
-                    if (results[0].address_components[i].types[k] == "postal_code") {
-                        console.log(results[0].address_components[i])
-                        zipcode = results[0].address_components[i].long_name;
-                        console.log(zipcode);
->>>>>>> e3e67d6bfe7a793eb0306cbbe0bd8e9e1f41d2f9
-                    }
-                }
-            }
-        })
-<<<<<<< HEAD
-// =============
-=======
->>>>>>> e3e67d6bfe7a793eb0306cbbe0bd8e9e1f41d2f9
-=======
->>>>>>> f9613baf595b873585721ea989058d0a4f561a28
         $("#artistList").empty();
         search = $("#eventInput").val();
         $("#eventList").show();
@@ -185,7 +116,7 @@ $(document).ready(function () {
             url: cors + baseUrl + performer + "?q=" + search + clientId,
             method: "GET"
         }).then(function (response) {
-            console.log(response);
+            console.log("performer", response);
             console.log(cors + baseUrl + event + "?q=" + search + clientId);
             performers = response.performers;
 
@@ -194,13 +125,12 @@ $(document).ready(function () {
                 var artistDiv = $("<div class='artist-card'>");
                 var artistText = $("<div class='artist-card-text'>");
                 var artistInterface = $("<div class='interface-a'>");
-                var playButton = $("<div class='playButton'>");
-                playButton.attr("data-name", performers[i].name);
+                var playButton = $("<div class='playButton'>")
                 var addButton = $("<div class='addButton'>");
                 addButton.append("<i class='fas fa-plus'></i>");
-                addButton.hide();
-                addButton.attr('data-id', performers[i].id);
                 playButton.append("<i class='fas fa-play'></i>");
+                playButton.attr("data-name", performers[i].short_name)
+
                 artistInterface.append(addButton, playButton);
 
                 var image = $("<img>");
@@ -220,27 +150,22 @@ $(document).ready(function () {
 
             }
         })
+
     })
     $(document).on("click", ".artist-card-text", function () {
-        currentArtist = $(this).attr("data-id");
-        console.log(currentArtist);
         $("#eventList").show();
-        $(".addButton").hide();
-        $(`[data-id=${currentArtist}]`).show();
         $("#spotifyDiv").remove();
+        currentArtist = $(this).attr("data-id");
         getEvents(currentArtist);
 
     })
 
     $(document).on("click", ".playButton", function (e) {
         currentArtistName = $(this).attr("data-name");
-        console.log(currentArtistName);
-
         getSpotify(currentArtistName);
 
 
     });
-
 
     $(document).on("click", "#backToEvents", function () {
         $("#eventList").show();
@@ -258,18 +183,14 @@ $(document).ready(function () {
                 venue: events[index].venue,
                 stats: events[index].stats
             };
-            userEvents[eventId] = eventObj;
             database.ref("/users/" + userId).update({
                 [eventId]: eventObj
             })
         }
-        console.log("individual add: " + JSON.stringify(userEvents));
-
     })
 
     $(document).on("click", ".addButton", function () {
-
-        if (userId && currentArtist === $(this).attr("data-id")) {
+        if (userId) {
             for (var i = 0; i < events.length; i++) {
                 var eventId = events[i].id;
                 eventObj = {
@@ -279,29 +200,10 @@ $(document).ready(function () {
                     venue: events[i].venue,
                     stats: events[i].stats
                 };
-                userEvents[eventId] = eventObj;
                 database.ref("/users/" + userId).update({
                     [eventId]: eventObj
                 })
             }
         }
-        console.log("add all: " + JSON.stringify(userEvents));
     })
-
 });
-
-
-/**
- * for (var key in validation_messages) {
-    // skip loop if the property is from prototype
-    if (!validation_messages.hasOwnProperty(key)) continue;
-
-    var obj = validation_messages[key];
-    for (var prop in obj) {
-        // skip loop if the property is from prototype
-        if(!obj.hasOwnProperty(prop)) continue;
-
-        // your code
-        alert(prop + " = " + obj[prop]);
-    }
-} */

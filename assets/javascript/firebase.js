@@ -11,11 +11,11 @@ firebase.initializeApp(config);
 var database = firebase.database();
 var auth = firebase.auth();
 var testObj = {
-    event1 : {
+    event1: {
         name: "event1",
         location: "location1"
     },
-    event2 : {
+    event2: {
         name: "event2",
         location: "location2"
     }
@@ -39,7 +39,7 @@ $(document).ready(function () {
     $("#signUp").on("click", function (e) {
         e.preventDefault();
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function () {
-            var email = $("#loginText").val().trim();
+            var email = $("#emailText").val().trim();
             var password = $("#passwordText").val().trim();
             auth.createUserWithEmailAndPassword(email, password).catch(function (error) {
                 console.log(error.code);
@@ -54,7 +54,7 @@ $(document).ready(function () {
         $('#currentUser').addClass('hide');
 
     })
-1
+    1
     auth.onAuthStateChanged(function (firebaseUser) {
         if (firebaseUser) {
             console.log(firebaseUser);
@@ -65,15 +65,15 @@ $(document).ready(function () {
             $("#logIn").addClass('hide')
             $("#signUp").addClass('hide');
             $("#logOut").removeClass('hide');
-            
+
         } else {
             console.log("not logged in");
         }
     })
 
-    $("#testButton").on('click', function(e) {
+    $("#testButton").on('click', function (e) {
         e.preventDefault();
-        database.ref('/users/' + userId).on('value', function(snapshot) {
+        database.ref('/users/' + userId).on('value', function (snapshot) {
             console.log(snapshot.val().events);
         })
     })
