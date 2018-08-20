@@ -16,6 +16,7 @@
         <!-- <button id="button1">Remove event1</button>
         <button id="button2">Remove event2</button> -->
         <button id="button3">Remove All Events</button>
+        <button id="reformat">Reformat View</button>
     </div>
   <div id="calendar1"></div>
   <!-- ================================ -->
@@ -26,7 +27,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
                 <h4 id="modalTitle" class="modal-title"></h4>
             </div>
-            <div id="modalBody" class="modal-body">Test</div>
+            <div id="Venue" class="modal-body">Venue : </div>
+            <div id="Time"  class="modal-body">Time : </div>
+            <div id="Price"  class="modal-body">Price : </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <!-- <a class="btn btn-primary" id="eventUrl" target="_blank">Remove Event</a> -->
@@ -46,7 +49,8 @@
             $('#prizePopup').modal('show');
         });
         </script>
-  <script src="http://fullcalendar.io/js/fullcalendar-2.7.1/fullcalendar.min.js"></script>
+  <!-- <script src="http://fullcalendar.io/js/fullcalendar-2.7.1/fullcalendar.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
   <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.1/fullcalendar.min.css'>
 
   <script>
@@ -59,7 +63,10 @@
             defaultDate: today,
             editable: true,
             eventLimit: true, // allow "more" link when too many events
-            events: [{title : 'event1' , start : '2018-08-18' }, {title: 'event2', start : '2018-08-26'},{title: 'event3', start : '2018-08-02'},{title: 'event4', start : '2018-08-10'}],
+            events: [{title : 'U2 360 tour' , start : '2018-08-18', time : 'Time : 7:00 PM', description : 'Venue : Shoreline' , price : 'Price : $20'}, 
+                            {title: 'Pink Floyd', start : '2018-08-26', time : 'Time : 8:00 PM', description: 'Venue : Oracle arena', price : 'Price : $30'},
+                            {title: 'AC/DC', start : '2018-08-02', time : 'Time : 9:00 PM', description : 'Venue : At&t park', price : 'Price : $40'},
+                            {title: 'Adele', start : '2018-08-10', time : 'Time : 8:00 PM', description : 'Venue : Fox Theatre', price : 'Price : $50'}],
             // eventClick: function(events)
             // {
             //     console.log(events._id);
@@ -67,9 +74,11 @@
             // }
             eventClick:  function(event, jsEvent, view) {
                     currentEventId = event._id;
-                    console.log(event._id);
+                    console.log(event);
                     $('#modalTitle').html(event.title);
-                    $('#modalBody').html(event.description);
+                    $('#Venue').html(event.description);
+                    $("#Time").html(event.time);
+                    $("#Price").html(event.price);
                     $('#eventUrl').attr('href',event.url);
                     $('#fullCalModal').modal();
                     return false;
@@ -80,6 +89,11 @@
         {
          
             $("#calendar1").fullCalendar('removeEvents', currentEventId)
+        }) 
+        $("#reformat").on("click", function()
+        {
+           console.log("why not");
+            $('#calendar1').fullCalendar('defaultView', 'listMonth');
         }) 
         // $("#button1").on("click", function()
         // {
