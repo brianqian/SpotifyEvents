@@ -29,17 +29,9 @@ function addToCalendar() {
         $('#calendar1').fullCalendar('renderEvent', calendarSource[i], [true])
     }
 
-
-
-
 }
 
-$('#calendar1').fullCalendar({
-    editable: true,
-    eventLimit: true, // allow "more" link when too many events
-    events: calendarSource
 
-})
 
 
 
@@ -48,46 +40,48 @@ console.log(today);
 var currentEventId;
 var calendarView = true;
 $(document).ready(function () {
-    // $('#calendar1').fullCalendar({
-    //     defaultDate: today,
-    //     editable: true,
-    //     allday: false,
-    //     eventLimit: true, // allow "more" link when too many events
-    //     events: tester123,
-    //     // eventClick: function(events)
-    //     // {
-    //     //     console.log(events._id);
-    //     // }
-    //     eventClick: function (event, jsEvent, view) {
-    //         currentEventId = event._id;
-    //         console.log(event);
-    //         $('#modalTitle').html(event.title);
-    //         $('#Venue').html(event.description);
-    //         $("#Time").html(event.time);
-    //         $("#Price").html(event.price);
-    //         $('#eventUrl').attr('href', event.url);
-    //         $('#fullCalModal').modal();
-    //         return false;
-    //     },
-    // })
-    // $("#removeEvent").on("click", function () {
-    //     $("#calendar1").fullCalendar('removeEvents', currentEventId)
-    // })
-    // $("#reformat").on("click", function () {
-    //     console.log("why not");
-    //     if ((calendarView == true)) {
-    //         $('#calendar1').fullCalendar(
-    //             'changeView', 'listMonth'
-    //         );
-    //         calendarView = false;
-    //     } else {
-    //         $('#calendar1').fullCalendar(
-    //             'changeView', 'month'
-    //         );
-    //         calendarView = true;
-    //     }
-    // })
-    // $("#button3").on("click", function () {
-    //     $("#calendar1").fullCalendar('removeEvents');
-    // })
+
+    $('#calendar1').fullCalendar({
+        editable: true,
+        eventLimit: true, // allow "more" link when too many events
+        events: calendarSource,
+        eventClick: function (event, jsEvent, view) {
+            currentEventId = event._id;
+            console.log(event);
+            $('#modalTitle').html(event.title);
+            $('#Venue').html(event.description);
+            $("#Time").html(event.time);
+            $("#Price").html(event.price);
+            $('#eventUrl').attr('href', event.url);
+            $('#fullCalModal').modal();
+            return false;
+        },
+
+    });
+
+    $("#removeEvent").on("click", function () {
+        $("#calendar1").fullCalendar('removeEvents', currentEventId)
+    })
+    $("#reformat").on("click", function () {
+        console.log("why not");
+        if ((calendarView == true)) {
+            $('#calendar1').fullCalendar(
+                'changeView', 'listMonth'
+            );
+            calendarView = false;
+        } else {
+            $('#calendar1').fullCalendar(
+                'changeView', 'month'
+            );
+            calendarView = true;
+        }
+    })
+    $("#button3").on("click", function () {
+        $("#calendar1").fullCalendar('removeEvents');
+        userEvents = {};
+        calendarSource = [];
+        var temp = database.ref("/user/" + userId)
+        temp.remove();
+
+    })
 });
