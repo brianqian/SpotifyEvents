@@ -22,21 +22,26 @@ function addToCalendar() {
     console.log('cal src2: ' + JSON.stringify(calendarSource));
 
 
-    $('#calendar1').fullCalendar({
-        editable: true,
-        eventLimit: true, // allow "more" link when too many events
-        events: calendarSource
 
-    })
+    $("#calendar1").fullCalendar('removeEvents');
+
     for (var i = 0; i < calendarSource.length; i++) {
-        $('#calendar1').fullCalendar('renderEvent', calendarSource[i]);
-
+        $('#calendar1').fullCalendar('renderEvent', calendarSource[i], [true])
     }
 
 
 
 
 }
+
+$('#calendar1').fullCalendar({
+    editable: true,
+    eventLimit: true, // allow "more" link when too many events
+    events: calendarSource
+
+})
+
+
 
 var today = moment().format("YYYY-MM-YY");
 console.log(today);

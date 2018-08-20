@@ -321,6 +321,8 @@ $(document).ready(function () {
                 [eventId]: eventObj
             })
         }
+        addToCalendar();
+
         console.log("individual add: " + JSON.stringify(userEvents));
 
     })
