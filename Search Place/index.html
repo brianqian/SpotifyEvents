@@ -34,6 +34,7 @@ $(function(){
       var latlng = new google.maps.LatLng(lat,lng);
       
       geocoder.geocode({'latLng': latlng}, function(results) {
+          console.log(results);
         for(i=0; i < results.length; i++){
             for(var j=0;j < results[i].address_components.length; j++){
                 for(var k=0; k < results[i].address_components[j].types.length; k++){
