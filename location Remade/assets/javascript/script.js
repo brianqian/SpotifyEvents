@@ -28,7 +28,7 @@ function fillEvents(events) {
     for (var i = 0; i < events.length; i++) {
         var eventDiv = $("<div class='event-card'>");
         var eventText = $("<div class='event-card-text'>");
-        var eventInterface = $("<div class='interface-e'>");
+        var eventInterface = $("<div class='interface-e iButton'>");
         eventInterface.append("<i class='fas fa-plus'></i>");
         var image = $("<img>");
         image.attr("src", events[i].performers[0].image);
@@ -46,7 +46,6 @@ function fillEvents(events) {
 
 
 function getEvents(id) {
-    $("#eventError").hide();
     if (zipcode && range) {
         $.ajax({
             url: cors + baseUrl + event + "?performers.id=" + id + geoip + zipcode + "&range=" + range + "mi" + clientId,
@@ -133,7 +132,6 @@ function getSpotify(artistName) {
             }
         }).then(function (response) {
             console.log(response);
-            $("#eventError").remove();
             $("#spotifyDiv").remove();
             var newDiv = $("<div id='spotifyDiv'>");
             if (!response.artists.items[0]) {
@@ -161,9 +159,9 @@ function getArtists(performers) {
         var artistDiv = $("<div class='artist-card'>");
         var artistText = $("<div class='artist-card-text'>");
         var artistInterface = $("<div class='interface-a'>");
-        var playButton = $("<div class='playButton'>");
+        var playButton = $("<div class='playButton iButton'>");
         playButton.attr("data-name", performers[i].name);
-        var addButton = $("<div class='addButton'>");
+        var addButton = $("<div class='addButton iButton'>");
         addButton.append("<i class='fas fa-plus'></i>");
         addButton.hide();
         addButton.attr('data-id', performers[i].id);
@@ -190,7 +188,7 @@ function getArtists(performers) {
 
 function displayError() {
     $("#eventList").empty();
-    $("#eventList").text("Sorry, no events found, please try another ewrwerwersearch");
+    $("#eventList").text("Sorry, no events found. Please try another search");
 }
 
 $(document).ready(function () {
@@ -237,9 +235,15 @@ $(document).ready(function () {
                         url: cors + baseUrl + "/events?geoip=" + zipcode + "&sort=score.desc" + clientId + "&taxonomies.name=concert",
                         method: "GET"
                     }).then(function (response) {
-                        console.log(response);
+                        console.log("only location: " + response);
                         events = response.events
-                        fillEvents(events);
+                        console.log('only loc events: ' + JSON.stringify(events));
+                        if (events.length === 0) {
+                            displayError();
+                        } else {
+                            $("#eventList").show();
+                            fillEvents(events);
+                        }
                     })
                 } else if (!(search) && zipcode !== "" && range !== "") {
                     $.ajax({
@@ -248,7 +252,12 @@ $(document).ready(function () {
                     }).then(function (response) {
                         console.log(response);
                         events = response.events
-                        fillEvents(events);
+                        if (events.length === 0) {
+                            displayError();
+                        } else {
+                            $("#eventList").show();
+                            fillEvents(events);
+                        }
                     })
                 }
             })
@@ -319,6 +328,8 @@ $(document).ready(function () {
                 [eventId]: eventObj
             })
         }
+        addToCalendar();
+
         console.log("individual add: " + JSON.stringify(userEvents));
 
     })

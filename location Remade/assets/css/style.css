@@ -1,18 +1,50 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster');
 body {
-    margin: 1em;
+    margin: 0 1em;
     padding: 0;
-    background: #eaeaea;
+    background: #444;
+    color: #eaeaea;
 }
 
 header {
     display: flex;
-    width: 90vw;
+    width: 100vw;
+    padding: 1.25em;
     min-height: 5em;
+    background-color: #222;
+}
+
+h1 {
+    font-family: 'Lobster', Arial, Helvetica, sans-serif;
+    font-size: 3.4em;
+}
+
+.tophalf-wrapper>form {
+    margin: 1.5em;
+}
+
+.bottomhalf-wrapper {
+    margin: 1.5em;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+}
+
+input {
+    margin: 0 1.5em;
 }
 
 div {
-    border: 1px black solid;
+    /* border: 1px black solid; */
     /* min-height: 50px; */
+}
+
+.tophalf-wrapper {
+    overflow: hidden;
+    background-color: #888;
+    border: 1px black solid;
 }
 
 .search-area-wrapper {
@@ -21,7 +53,8 @@ div {
 }
 
 .top-logo {
-    flex: 8
+    flex: 8;
+    color: #1ED760;
 }
 
 .search-bar {
@@ -37,23 +70,29 @@ div {
     height: 80vh;
 }
 
-.tophalf-wrapper {
-    overflow: hidden;
-}
-
 #artistList {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: .5em;
+    align-content: start;
+    align-items: center;
     overflow: auto;
     flex: 2;
+    background-color: #222;
+    border: 2px black solid;
+    padding: 2em;
 }
 
 #eventList {
     display: grid;
     grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
     grid-gap: 1em;
     overflow: auto;
     flex: 3;
+    padding: 2em;
+    background-color: #444;
+    border: 2px black solid;
 }
 
 .submit-div {
@@ -62,22 +101,53 @@ div {
     justify-content: center;
 }
 
-.event-card,
-.artist-card {
+.event-card {
     text-align: center;
     line-height: 1.1;
     display: flex;
-    /* flex-shrink: 0; */
+}
+
+.artist-card {
+    text-align: center;
+    line-height: 1.1;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+}
+
+.event-card {
+    border: 2px #eaeaea solid;
+    background-color: #222;
+    padding: 1.5em;
 }
 
 .event-card-text {
     flex: 12;
-    max-height: 170px;
+    max-height: 200px;
 }
 
 .artist-card-text {
+    grid-column: 1/9;
     flex: 8;
     flex-basis: content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 2px #1ED760 solid;
+    border-left: 2px #1ED760 solid;
+}
+
+.artist-card-text>p {
+    display: flex;
+    align-items: center;
+    min-height: 2em;
+    margin: auto;
+}
+
+.artist-card-text:hover {
+    background-color: #eaeaea;
+    color: #333;
+    border-left: 4px #1ED760 solid;
+    border-right: 4px #1ED760 solid;
 }
 
 .interface-e {
@@ -86,12 +156,25 @@ div {
     align-items: center;
     justify-content: center;
     max-height: 170px;
+    min-height: 100%;
 }
 
 .interface-a {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column: 9 / span 2;
     flex: 2;
     align-items: center;
+}
+
+.iButton {
+    color: #1ED760;
+    min-height: 100%;
+}
+
+.iButton:hover {
+    background-color: #fff;
+    color: black;
 }
 
 .interface-a>div {
