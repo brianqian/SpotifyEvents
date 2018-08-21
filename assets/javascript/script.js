@@ -35,7 +35,7 @@ function fillEvents(events) {
         var venue = $("<p>").text(events[i].venue.name);
         var address = $("<p>").text(events[i].venue.address + ", " + events[i].venue.display_location);
         var title = $("<h3>").text(events[i].title);
-        var time = $("<p>").text(events[i].datetime_local)
+        var time = $("<p>").text(moment(events[i].datetime_local).format("llll"));
         eventText.append(title, venue, address, time);
         eventInterface.attr('data-event', events[i].id);
         eventInterface.attr('data-index', i);

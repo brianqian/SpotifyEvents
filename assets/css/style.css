@@ -31,7 +31,7 @@ input {
 
 .tophalf-wrapper {
     overflow: hidden;
-    border: 1px black solid;
+    /* border: 1px black solid; */
     height: 140vh;
 }
 
@@ -65,7 +65,8 @@ input {
     margin: auto 0;
     width: 100vw;
     justify-items: center;
-    background-color: rgba(60, 78, 91, 0.63);
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9)
 }
 
 .search-results {
@@ -102,10 +103,6 @@ input {
     color: rgba(0, 0, 0, 0.5)
 }
 
-.fc-other-month:hover {
-    /* color: #fff */
-}
-
 #artistList {
     display: grid;
     grid-template-columns: 1fr;
@@ -125,7 +122,6 @@ input {
     grid-template-rows: minmax(200px, 250px);
     grid-gap: 1em;
     overflow: auto;
-    flex: 3;
     padding: 2em;
     background-color: rgba(13, 0, 43, 0.705);
     border: 2px black solid;
@@ -133,7 +129,6 @@ input {
 
 #spotifyDiv {
     display: flex;
-    margin: 10%;
     align-items: center;
     background-color: #333;
     justify-content: center;
@@ -149,6 +144,7 @@ input {
 #calendar1 {
     width: 90vw;
     margin: auto;
+    box-shadow: -30px 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .submit-div {
@@ -243,6 +239,25 @@ input {
 
 .playButton {
     order: -1;
+}
+
+.modal-content {
+    background-color: #222;
+}
+
+.modal-title {
+    order: -1;
+    flex: 9;
+}
+
+.close {
+    padding: 0;
+    flex: 1;
+    color: white;
+}
+
+.modal-header {
+    display: flex;
 }
 
 .iButton:hover {
