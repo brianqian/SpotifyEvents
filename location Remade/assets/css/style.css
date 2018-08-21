@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Lobster|Quicksand:500');
+@import url('https://fonts.googleapis.com/css?family=Lobster|Quicksand:500|Roboto+Condensed');
 body {
     min-height: 100%;
     display: grid;
     grid-template-rows: 1fr 1fr;
     margin: 0 1em;
     padding: 0;
-    background: linear-gradient(20rad, #7CD279, #19274D);
+    background: linear-gradient(181deg, #79D27C, #1C194D);
     color: #eaeaea;
-    font-family: 'Quicksand', Arial, Helvetica, sans-serif;
+    font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
     font-size: 1.3em;
 }
 
@@ -36,6 +36,15 @@ input {
 .bottomhalf-wrapper {
     margin: 1.5em;
     /* background-color: #222; */
+    font-family: 'Roboto Condensed';
+}
+
+.fc-other-month {
+    color: #444
+}
+
+.fc-other-month:hover {
+    color: #fff
 }
 
 .search {
@@ -51,7 +60,7 @@ input {
 
 .tophalf-wrapper {
     overflow: hidden;
-    background-color: #888;
+    /* background-color: #888; */
     border: 1px black solid;
 }
 
@@ -81,17 +90,18 @@ input {
 
 .fc-content,
 .fc-event {
-    background-color: #222;
+    background-color: rgb(187, 152, 36);
     color: #eaeaea;
     min-height: 1.5em;
     border-radius: 20px;
     text-align: center;
     padding: 3px;
-    border-color: #222;
+    border-color: transparent;
 }
 
 .fc-today {
-    background: rgb(21, 151, 67) !important;
+    background: transparent !important;
+    border: 3px red solid;
 }
 
 #artistList {
