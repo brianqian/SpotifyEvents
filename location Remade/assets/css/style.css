@@ -1,9 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Lobster');
+@import url('https://fonts.googleapis.com/css?family=Lobster|Quicksand:500');
 body {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
     margin: 0 1em;
     padding: 0;
-    background: #444;
+    background: linear-gradient(20rad, #7CD279, #19274D);
     color: #eaeaea;
+    font-family: 'Quicksand', Arial, Helvetica, sans-serif;
+    font-size: 1.3em;
 }
 
 header {
@@ -30,6 +34,12 @@ h1 {
 .search {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.search>label {
+    margin: 0;
+    margin: auto;
 }
 
 input {
@@ -64,10 +74,11 @@ div {
 }
 
 .search-results {
-    display: flex;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
     width: 90vw;
     margin: auto;
-    height: 80vh;
+    height: 100vh;
 }
 
 #artistList {
@@ -95,34 +106,52 @@ div {
     border: 2px black solid;
 }
 
+#spotifyDiv {
+    display: flex;
+    margin: 10%;
+    align-items: center;
+    background-color: #333;
+    justify-content: center;
+}
+
+#submitInput,
+#logOut {
+    border-radius: 20px;
+    /* background-color: #1ED760;
+    color: #fff; */
+}
+
 .submit-div {
     margin: .5em;
     display: flex;
     justify-content: center;
 }
 
-.event-card {
-    text-align: center;
-    line-height: 1.1;
-    display: flex;
-}
+.event-card {}
 
 .artist-card {
     text-align: center;
     line-height: 1.1;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
+    border: 1px #1ED760 solid;
 }
 
 .event-card {
+    text-align: center;
+    line-height: 1.1;
+    background-color: #aaa;
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    grid-template-rows: 1em 1fr 1em;
     border: 2px #eaeaea solid;
-    background-color: #222;
-    padding: 1.5em;
 }
 
 .event-card-text {
-    flex: 12;
+    grid-column: 1/13;
+    grid-row: 2/3;
     max-height: 200px;
+    color: #444;
 }
 
 .artist-card-text {
@@ -152,11 +181,14 @@ div {
 
 .interface-e {
     display: flex;
-    flex: 1;
+    grid-column: 13/-1;
+    grid-row: 1/4;
     align-items: center;
     justify-content: center;
     max-height: 170px;
     min-height: 100%;
+    border-left: 1px #1ED760;
+    background-color: #222;
 }
 
 .interface-a {
@@ -168,8 +200,15 @@ div {
 }
 
 .iButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #1ED760;
     min-height: 100%;
+}
+
+.playButton {
+    order: -1;
 }
 
 .iButton:hover {
