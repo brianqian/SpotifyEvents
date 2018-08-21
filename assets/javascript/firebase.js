@@ -1,11 +1,12 @@
 var config = {
-    apiKey: "AIzaSyB0DMqLPuYHYZtXJrliz4ekLJoLtxkkGeQ",
-    authDomain: "events-3b88d.firebaseapp.com",
-    databaseURL: "https://events-3b88d.firebaseio.com",
-    projectId: "events-3b88d",
-    storageBucket: "events-3b88d.appspot.com",
-    messagingSenderId: "390178045451"
+    apiKey: "AIzaSyAD_QqvFCnxny4_PdU9Oe5BSy0EfzgTpkc",
+    authDomain: "farley-d28f6.firebaseapp.com",
+    databaseURL: "https://farley-d28f6.firebaseio.com",
+    projectId: "farley-d28f6",
+    storageBucket: "farley-d28f6.appspot.com",
+    messagingSenderId: "558496574088"
 };
+
 firebase.initializeApp(config);
 
 var database = firebase.database();
@@ -61,14 +62,27 @@ $(document).ready(function () {
             userId = firebaseUser.uid;
             $('.hideMe').addClass('hide');
             $('#currentUser').removeClass('hide');
-            $('#currentUser').text("Welcome, " + userId + "!");
+            $('#currentUser').text("Welcome, " + firebaseUser.email + "!");
             $("#logIn").addClass('hide')
             $("#signUp").addClass('hide');
             $("#logOut").removeClass('hide');
 
+            database.ref("/users/" + userId).once('value', function (snapshot) {
+                if (snapshot.val()) {
+                    userEvents = snapshot.val();
+                    addToCalendar();
+
+                } else {
+                    userEvents = {};
+                }
+            })
         } else {
             console.log("not logged in");
         }
+    })
+
+    database.ref("/user/" + userId).on('value', function (snapshot) {
+        addToCalendar();
     })
 
     $("#testButton").on('click', function (e) {
