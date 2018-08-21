@@ -1,13 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster');
 body {
     margin: 1em;
     padding: 0;
-    background: #eaeaea;
+    background: #444;
 }
 
 header {
     display: flex;
     width: 90vw;
     min-height: 5em;
+}
+
+h1 {
+    font-family: 'Lobster', Arial, Helvetica, sans-serif;
 }
 
 div {
@@ -21,7 +26,9 @@ div {
 }
 
 .top-logo {
-    flex: 8
+    flex: 8;
+    background-color: #222;
+    color: #1ED760;
 }
 
 .search-bar {
