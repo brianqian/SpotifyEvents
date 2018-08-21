@@ -6,7 +6,14 @@ function addToCalendar() {
         var tempObj = {
             title: userEvents[prop]["short_title"],
             start: moment(convertedTime).format("YYYY-MM-DD"),
-            id: userEvents[prop]["id"]
+            id: userEvents[prop]["id"],
+            venueAddress: userEvents[prop]['venue']['address'] + ", " + userEvents[prop]['venue']['extended_address'],
+            venueName: userEvents[prop]['venue']['name'],
+            time: moment(userEvents[prop]['datetime_local']).format("h:mm A"),
+            url: userEvents[prop]['url'],
+            highestPrice: userEvents[prop]['stats']['highest_price'],
+            lowestPrice: userEvents[prop]['stats']['lowest_price'],
+            ticketsLeft: userEvents[prop]['stats']['listing_count']
         }
 
         for (var i = 0; i < calendarSource.length; i++) {
@@ -47,9 +54,11 @@ $(document).ready(function () {
             currentEventId = event.id;
             console.log(event);
             $('#modalTitle').html(event.title);
-            $('#Venue').html(event.description);
-            $("#Time").html(event.time);
-            $("#Price").html(event.price);
+            $('#Venue').html("<p>Venue: " + event.venueName + "</p><p>" + event.venueAddress + "</p>");
+            $("#Time").html("<p>Time: " + event.time + "</p>");
+            $("#Price").html("<p>Tickets Left: " + event.ticketsLeft +
+                "</p><p>Highest Price: " + event.highestPrice +
+                "</p><p>Lowest Price: " + event.lowestPrice + "</p>");
             $('#eventUrl').attr('href', event.url);
             $('#fullCalModal').modal();
             return false;

@@ -18,7 +18,7 @@ var autocomplete;
 var geocoder;
 var range;
 var calendarSource = [];
-
+var tempArtists = [];
 
 
 
@@ -93,6 +93,7 @@ function getEvents(id) {
         })
     }
 }
+
 
 function getSpotify(artistName) {
     var spotifyBase = "https://api.spotify.com/v1/search?query=";
@@ -235,14 +236,29 @@ $(document).ready(function () {
                         url: cors + baseUrl + "/events?geoip=" + zipcode + "&sort=score.desc" + clientId + "&taxonomies.name=concert",
                         method: "GET"
                     }).then(function (response) {
-                        console.log("only location: " + response);
+                        // console.log("only location: " + response);
                         events = response.events
-                        console.log('only loc events: ' + JSON.stringify(events));
+                        console.log("events", events);
+                        // console.log('only loc events: ' + JSON.stringify(events));
+                        tempArtists = [];
                         if (events.length === 0) {
                             displayError();
                         } else {
-                            $("#eventList").show();
-                            fillEvents(events);
+                            for (var i = 0; i < events.length; i++) {
+                                for (var j = 0; j < events[i].performers.length; j++) {
+                                    var artist = {};
+                                    artist["name"] = events[i].performers[j].name;
+                                    artist["id"] = events[i].performers[j].id
+                                    artist["image"] = events[i].performers[j].image;
+                                    artist["short_name"] = events[i].performers[j].short_name;
+                                    if (!tempArtists.filter(function(e) {
+                                        return e.name === artist['name'];
+                                    }).length > 0) {
+                                        tempArtists.push(artist);
+                                    }
+                                }
+                            }
+                            getArtists(tempArtists);
                         }
                     })
                 } else if (!(search) && zipcode !== "" && range !== "") {
