@@ -62,7 +62,7 @@ $(document).ready(function () {
             userId = firebaseUser.uid;
             $('.hideMe').addClass('hide');
             $('#currentUser').removeClass('hide');
-            $('#currentUser').text("Welcome, " + userId + "!");
+            $('#currentUser').text("Welcome, " + firebaseUser.email + "!");
             $("#logIn").addClass('hide')
             $("#signUp").addClass('hide');
             $("#logOut").removeClass('hide');
