@@ -141,8 +141,8 @@ function getSpotify(artistName) {
                 return;
             } else {
                 var artistURI = response.artists.items[0].uri;
-                var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="100%" height="95%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
-                newDiv.append(`<button id='backToEvents'>X</button>` + embeddedPlayer);
+                var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="100%" height="100%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+                newDiv.append(embeddedPlayer);
                 $("#eventList").hide();
                 $(".search-results").append(newDiv);
             }
@@ -302,10 +302,10 @@ $(document).ready(function () {
     });
 
 
-    $(document).on("click", "#backToEvents", function () {
-        $("#eventList").show();
-        $("#spotifyDiv").remove();
-    });
+    // $(document).on("click", "#backToEvents", function () {
+    //     $("#eventList").show();
+    //     $("#spotifyDiv").remove();
+    // });
 
     $(document).on("click", ".interface-e", function () {
         if (userId) {

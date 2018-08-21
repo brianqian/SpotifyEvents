@@ -1,9 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Lobster');
+@import url('https://fonts.googleapis.com/css?family=Lobster|Quicksand:500');
 body {
     margin: 0 1em;
     padding: 0;
     background: #444;
     color: #eaeaea;
+    font-family: 'Quicksand', Arial, Helvetica, sans-serif;
+    font-size: 1.3em;
 }
 
 header {
@@ -96,6 +98,14 @@ div {
     border: 2px black solid;
 }
 
+#spotifyDiv {
+    display: flex;
+    margin: 10%;
+    align-items: center;
+    background-color: #333;
+    justify-content: center;
+}
+
 .submit-div {
     margin: .5em;
     display: flex;
@@ -113,17 +123,22 @@ div {
     line-height: 1.1;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
+    border: 1px #1ED760 solid;
 }
 
 .event-card {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    grid-template-rows: 1em 1fr 1em;
     border: 2px #eaeaea solid;
-    background-color: #222;
-    padding: 1.5em;
 }
 
 .event-card-text {
-    flex: 12;
+    grid-column: 1/13;
+    grid-row: 1/4;
     max-height: 200px;
+    background-color: #aaa;
+    color: #444;
 }
 
 .artist-card-text {
@@ -153,11 +168,13 @@ div {
 
 .interface-e {
     display: flex;
-    flex: 1;
+    grid-column: 13/-1;
+    grid-row: 1/4;
     align-items: center;
     justify-content: center;
     max-height: 170px;
     min-height: 100%;
+    border-left: 1px #1ED760
 }
 
 .interface-a {
