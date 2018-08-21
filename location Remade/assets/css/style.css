@@ -4,7 +4,7 @@ body {
     grid-template-rows: 1fr 1fr;
     margin: 0 1em;
     padding: 0;
-    background: #444;
+    background: linear-gradient(20rad, #7CD279, #19274D);
     color: #eaeaea;
     font-family: 'Quicksand', Arial, Helvetica, sans-serif;
     font-size: 1.3em;
