@@ -3,21 +3,44 @@ body {
     margin: 1em;
     padding: 0;
     background: #444;
+    color: #eaeaea;
 }
 
 header {
     display: flex;
-    width: 90vw;
+    width: 100vw;
+    padding: 2em;
     min-height: 5em;
+    background-color: #222;
 }
 
 h1 {
     font-family: 'Lobster', Arial, Helvetica, sans-serif;
+    font-size: 3.4em;
+}
+
+.tophalf-wrapper>form {
+    margin: 1.5em;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+}
+
+input {
+    margin: 0 1.5em;
 }
 
 div {
-    border: 1px black solid;
+    /* border: 1px black solid; */
     /* min-height: 50px; */
+}
+
+.tophalf-wrapper {
+    overflow: hidden;
+    background-color: #888;
+    border: 1px black solid;
 }
 
 .search-area-wrapper {
@@ -27,7 +50,6 @@ div {
 
 .top-logo {
     flex: 8;
-    background-color: #222;
     color: #1ED760;
 }
 
@@ -44,15 +66,14 @@ div {
     height: 80vh;
 }
 
-.tophalf-wrapper {
-    overflow: hidden;
-}
-
 #artistList {
     display: flex;
     flex-direction: column;
     overflow: auto;
     flex: 2;
+    background-color: #222;
+    border: 2px black solid;
+    padding: 2em;
 }
 
 #eventList {
@@ -61,6 +82,9 @@ div {
     grid-gap: 1em;
     overflow: auto;
     flex: 3;
+    padding: 2em;
+    background-color: #444;
+    border: 2px black solid;
 }
 
 .submit-div {
