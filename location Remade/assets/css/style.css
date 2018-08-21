@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lobster|Quicksand:500');
 body {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
     margin: 0 1em;
     padding: 0;
     background: #444;
@@ -32,6 +34,12 @@ h1 {
 .search {
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.search>label {
+    margin: 0;
+    margin: auto;
 }
 
 input {
@@ -70,7 +78,7 @@ div {
     grid-template-columns: 2fr 3fr;
     width: 90vw;
     margin: auto;
-    height: 80vh;
+    height: 100vh;
 }
 
 #artistList {
@@ -106,17 +114,20 @@ div {
     justify-content: center;
 }
 
+#submitInput,
+#logOut {
+    border-radius: 20px;
+    /* background-color: #1ED760;
+    color: #fff; */
+}
+
 .submit-div {
     margin: .5em;
     display: flex;
     justify-content: center;
 }
 
-.event-card {
-    text-align: center;
-    line-height: 1.1;
-    display: flex;
-}
+.event-card {}
 
 .artist-card {
     text-align: center;
@@ -127,6 +138,9 @@ div {
 }
 
 .event-card {
+    text-align: center;
+    line-height: 1.1;
+    background-color: #aaa;
     display: grid;
     grid-template-columns: repeat(14, 1fr);
     grid-template-rows: 1em 1fr 1em;
@@ -135,9 +149,8 @@ div {
 
 .event-card-text {
     grid-column: 1/13;
-    grid-row: 1/4;
+    grid-row: 2/3;
     max-height: 200px;
-    background-color: #aaa;
     color: #444;
 }
 
@@ -174,7 +187,8 @@ div {
     justify-content: center;
     max-height: 170px;
     min-height: 100%;
-    border-left: 1px #1ED760
+    border-left: 1px #1ED760;
+    background-color: #222;
 }
 
 .interface-a {
