@@ -17,6 +17,8 @@ var userEvents = {};
 var autocomplete;
 var geocoder;
 var range;
+var calendarSource = [];
+var tempArtists = [];
 
 
 
@@ -26,7 +28,7 @@ function fillEvents(events) {
     for (var i = 0; i < events.length; i++) {
         var eventDiv = $("<div class='event-card'>");
         var eventText = $("<div class='event-card-text'>");
-        var eventInterface = $("<div class='interface-e'>");
+        var eventInterface = $("<div class='interface-e iButton'>");
         eventInterface.append("<i class='fas fa-plus'></i>");
         var image = $("<img>");
         image.attr("src", events[i].performers[0].image);
@@ -44,7 +46,6 @@ function fillEvents(events) {
 
 
 function getEvents(id) {
-    $("#eventError").remove();
     if (zipcode && range) {
         $.ajax({
             url: cors + baseUrl + event + "?performers.id=" + id + geoip + zipcode + "&range=" + range + "mi" + clientId,
@@ -93,6 +94,7 @@ function getEvents(id) {
     }
 }
 
+
 function getSpotify(artistName) {
     var spotifyBase = "https://api.spotify.com/v1/search?query=";
     var client_id = "3a13316200434809bcc4a3795fc632dc";
@@ -131,20 +133,17 @@ function getSpotify(artistName) {
             }
         }).then(function (response) {
             console.log(response);
-            $("#eventError").remove();
             $("#spotifyDiv").remove();
             var newDiv = $("<div id='spotifyDiv'>");
             if (!response.artists.items[0]) {
                 newDiv.append("<p>Artist not found on Spotify!</p>")
-                newDiv.css("flex", "3");
                 $("#eventList").hide();
                 $(".search-results").append(newDiv);
                 return;
             } else {
                 var artistURI = response.artists.items[0].uri;
-                var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="100%" height="90%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
-                newDiv.append(`<button id='backToEvents'>X</button>` + embeddedPlayer);
-                newDiv.css("flex", "3");
+                var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="100%" height="100%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+                newDiv.append(embeddedPlayer);
                 $("#eventList").hide();
                 $(".search-results").append(newDiv);
             }
@@ -159,9 +158,9 @@ function getArtists(performers) {
         var artistDiv = $("<div class='artist-card'>");
         var artistText = $("<div class='artist-card-text'>");
         var artistInterface = $("<div class='interface-a'>");
-        var playButton = $("<div class='playButton'>");
+        var playButton = $("<div class='playButton iButton'>");
         playButton.attr("data-name", performers[i].name);
-        var addButton = $("<div class='addButton'>");
+        var addButton = $("<div class='addButton iButton'>");
         addButton.append("<i class='fas fa-plus'></i>");
         addButton.hide();
         addButton.attr('data-id', performers[i].id);
@@ -187,11 +186,8 @@ function getArtists(performers) {
 }
 
 function displayError() {
-    $("#eventList").hide();
-    var newDiv = $("<div id='eventError'>");
-    newDiv.css("flex", "3");
-    newDiv.append("Sorry, no events found, please try another search");
-    $(".search-results").append(newDiv);
+    $("#eventList").empty();
+    $("#eventList").text("Sorry, no events found. Please try another search");
 }
 
 $(document).ready(function () {
@@ -238,19 +234,57 @@ $(document).ready(function () {
                         url: cors + baseUrl + "/events?geoip=" + zipcode + "&sort=score.desc" + clientId + "&taxonomies.name=concert",
                         method: "GET"
                     }).then(function (response) {
-                        console.log(response);
+                        // console.log("only location: " + response);
                         events = response.events
-                        fillEvents(events);
+                        console.log("events", events);
+                        // console.log('only loc events: ' + JSON.stringify(events));
+                        tempArtists = [];
+                        if (events.length === 0) {
+                            displayError();
+                        } else {
+                            for (var i = 0; i < events.length; i++) {
+                                for (var j = 0; j < events[i].performers.length; j++) {
+                                    var artist = {};
+                                    artist["name"] = events[i].performers[j].name;
+                                    artist["id"] = events[i].performers[j].id
+                                    artist["image"] = events[i].performers[j].image;
+                                    artist["short_name"] = events[i].performers[j].short_name;
+                                    if (!tempArtists.filter(function (e) {
+                                            return e.name === artist['name'];
+                                        }).length > 0) {
+                                        tempArtists.push(artist);
+                                    }
+                                }
+                            }
+                            getArtists(tempArtists);
+                        }
                     })
-                }
-                else if (!(search) && zipcode !== "" && range !== "") {
+                } else if (!(search) && zipcode !== "" && range !== "") {
                     $.ajax({
                         url: cors + baseUrl + "/events?geoip=" + zipcode + "&sort=score.desc" + "&range=" + range + clientId + "&taxonomies.name=concert",
                         method: "GET"
                     }).then(function (response) {
                         console.log(response);
                         events = response.events
-                        fillEvents(events);
+                        if (events.length === 0) {
+                            displayError();
+                        } else {
+                            for (var i = 0; i < events.length; i++) {
+                                for (var j = 0; j < events[i].performers.length; j++) {
+                                    var artist = {};
+                                    artist["name"] = events[i].performers[j].name;
+                                    artist["id"] = events[i].performers[j].id
+                                    artist["image"] = events[i].performers[j].image;
+                                    artist["short_name"] = events[i].performers[j].short_name;
+                                    if (!tempArtists.filter(function (e) {
+                                            return e.name === artist['name'];
+                                        }).length > 0) {
+                                        tempArtists.push(artist);
+                                    }
+                                }
+                            }
+                            getArtists(tempArtists);
+                        }
                     })
                 }
             })
@@ -274,9 +308,10 @@ $(document).ready(function () {
                 getArtists(performers);
             })
         }
-        
+
     });
     $(document).on("click", ".artist-card-text", function () {
+        $('#eventError').remove();
         currentArtist = $(this).attr("data-id");
         console.log(currentArtist);
         $("#eventList").show();
@@ -297,10 +332,10 @@ $(document).ready(function () {
     });
 
 
-    $(document).on("click", "#backToEvents", function () {
-        $("#eventList").show();
-        $("#spotifyDiv").remove();
-    });
+    // $(document).on("click", "#backToEvents", function () {
+    //     $("#eventList").show();
+    //     $("#spotifyDiv").remove();
+    // });
 
     $(document).on("click", ".interface-e", function () {
         if (userId) {
@@ -320,6 +355,8 @@ $(document).ready(function () {
                 [eventId]: eventObj
             })
         }
+        addToCalendar();
+
         console.log("individual add: " + JSON.stringify(userEvents));
 
     })
@@ -344,6 +381,7 @@ $(document).ready(function () {
                 })
             }
         }
+        addToCalendar();
         console.log("add all: " + JSON.stringify(userEvents));
     })
 
