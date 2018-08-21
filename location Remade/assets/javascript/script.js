@@ -28,7 +28,7 @@ function fillEvents(events) {
     for (var i = 0; i < events.length; i++) {
         var eventDiv = $("<div class='event-card'>");
         var eventText = $("<div class='event-card-text'>");
-        var eventInterface = $("<div class='interface-e'>");
+        var eventInterface = $("<div class='interface-e iButton'>");
         eventInterface.append("<i class='fas fa-plus'></i>");
         var image = $("<img>");
         image.attr("src", events[i].performers[0].image);
@@ -159,9 +159,9 @@ function getArtists(performers) {
         var artistDiv = $("<div class='artist-card'>");
         var artistText = $("<div class='artist-card-text'>");
         var artistInterface = $("<div class='interface-a'>");
-        var playButton = $("<div class='playButton'>");
+        var playButton = $("<div class='playButton iButton'>");
         playButton.attr("data-name", performers[i].name);
-        var addButton = $("<div class='addButton'>");
+        var addButton = $("<div class='addButton iButton'>");
         addButton.append("<i class='fas fa-plus'></i>");
         addButton.hide();
         addButton.attr('data-id', performers[i].id);
