@@ -249,9 +249,9 @@ $(document).ready(function () {
                                     artist["id"] = events[i].performers[j].id
                                     artist["image"] = events[i].performers[j].image;
                                     artist["short_name"] = events[i].performers[j].short_name;
-                                    if (!tempArtists.filter(function (e) {
-                                            return e.name === artist['name'];
-                                        }).length > 0) {
+                                    if (!tempArtists.filter(function(e) {
+                                        return e.name === artist['name'];
+                                    }).length > 0) {
                                         tempArtists.push(artist);
                                     }
                                 }
@@ -276,9 +276,9 @@ $(document).ready(function () {
                                     artist["id"] = events[i].performers[j].id
                                     artist["image"] = events[i].performers[j].image;
                                     artist["short_name"] = events[i].performers[j].short_name;
-                                    if (!tempArtists.filter(function (e) {
-                                            return e.name === artist['name'];
-                                        }).length > 0) {
+                                    if (!tempArtists.filter(function(e) {
+                                        return e.name === artist['name'];
+                                    }).length > 0) {
                                         tempArtists.push(artist);
                                     }
                                 }
