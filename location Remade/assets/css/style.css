@@ -64,7 +64,8 @@ div {
 }
 
 .search-results {
-    display: flex;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
     width: 90vw;
     margin: auto;
     height: 80vh;
@@ -168,8 +169,15 @@ div {
 }
 
 .iButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #1ED760;
     min-height: 100%;
+}
+
+.playButton {
+    order: -1;
 }
 
 .iButton:hover {

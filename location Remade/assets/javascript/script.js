@@ -136,15 +136,13 @@ function getSpotify(artistName) {
             var newDiv = $("<div id='spotifyDiv'>");
             if (!response.artists.items[0]) {
                 newDiv.append("<p>Artist not found on Spotify!</p>")
-                newDiv.css("flex", "3");
                 $("#eventList").hide();
                 $(".search-results").append(newDiv);
                 return;
             } else {
                 var artistURI = response.artists.items[0].uri;
-                var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="100%" height="90%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+                var embeddedPlayer = `<iframe src="https://open.spotify.com/embed?uri=${artistURI}" width="100%" height="95%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
                 newDiv.append(`<button id='backToEvents'>X</button>` + embeddedPlayer);
-                newDiv.css("flex", "3");
                 $("#eventList").hide();
                 $(".search-results").append(newDiv);
             }
