@@ -39,26 +39,27 @@
                 </form>
             </div>
         </header>
-        <form>
-            <div class="search-bar">
-                <div class="artist-search search">
-                    <label for="eventInput">Artist: </label>
-                    <input type="search" id="eventInput" placeholder="Artist">
-                </div>
-                <div class="location-search search">
-                    <label for="locationInput">Location: </label>
-                    <input type="text" id="locationInput" placeholder="City">
-                </div>
-                <div class="radius-search search">
-                    <label for="rangeInput">Radius: </label>
 
-                    <input type="number" id="rangeInput" placeholder="Range(mi)">
-                </div>
+        <div class="search-bar">
+            <div class="artist-search search">
+                <label for="eventInput">Artist: </label>
+                <input type="search" id="eventInput" placeholder="Artist">
+            </div>
+            <div class="location-search search">
+                <label for="locationInput">Location: </label>
+                <input type="text" id="locationInput" placeholder="City">
+            </div>
+            <div class="radius-search search">
+                <label for="rangeInput">Radius: </label>
+
+                <input type="number" id="rangeInput" placeholder="Range(mi)">
             </div>
             <div class="submit-div">
                 <button type="submit" id="submitInput">Search!</button>
             </div>
-        </form>
+        </div>
+
+
 
         <div class="search-results">
             <div id="artistList">
@@ -123,7 +124,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHwaTsXfb_twBtFI5gUR6p3T1MwhFdVWo&libraries=places"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"

@@ -3,7 +3,7 @@ body {
     min-height: 100%;
     display: grid;
     grid-template-rows: 1fr 1fr;
-    margin: 0 1em;
+    margin: 0;
     padding: 0;
     background: linear-gradient(181deg, #79D27C, #1C194D);
     color: #eaeaea;
@@ -14,43 +14,43 @@ body {
 header {
     display: flex;
     width: 100vw;
-    padding: 1.25em;
-    min-height: 5em;
     background-color: #222;
+    margin: auto;
 }
 
 h1 {
     font-family: 'Lobster', Arial, Helvetica, sans-serif;
     font-size: 3.4em;
+    margin: .5em;
+    color: rgb(71, 209, 36);
 }
 
 input {
     margin: 0 1.5em;
 }
 
-.tophalf-wrapper>form {
-    margin: 1.5em;
-    width: 90vw;
+.tophalf-wrapper {
+    overflow: hidden;
+    /* border: 1px black solid; */
+    height: 140vh;
 }
 
-.bottomhalf-wrapper {
-    margin: 1.5em;
-    /* background-color: #222; */
-    font-family: 'Roboto Condensed';
+.top-logo {
+    flex: 7;
 }
 
-.fc-other-month {
-    color: #444
+.login-area {
+    flex: 2;
+    padding: 1em;
 }
 
-.fc-other-month:hover {
-    color: #fff
-}
+/* class for label and input */
 
 .search {
     display: flex;
     justify-content: center;
     align-items: center;
+    grid-column: span 4;
 }
 
 .search>label {
@@ -58,26 +58,15 @@ input {
     margin: auto;
 }
 
-.tophalf-wrapper {
-    overflow: hidden;
-    /* background-color: #888; */
-    border: 1px black solid;
-}
-
-.search-area-wrapper {
-    display: flex;
-    flex-direction: column;
-}
-
-.top-logo {
-    flex: 8;
-    color: #1ED760;
-}
-
 .search-bar {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 1em;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 3em 3em;
+    margin: auto 0;
+    width: 100vw;
+    justify-items: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9)
 }
 
 .search-results {
@@ -85,7 +74,13 @@ input {
     grid-template-columns: 2fr 3fr;
     width: 90vw;
     margin: auto;
-    height: 100vh;
+    height: 80vh;
+}
+
+.bottomhalf-wrapper {
+    margin: 1.5em;
+    /* background-color: #222; */
+    font-family: 'Roboto Condensed';
 }
 
 .fc-content,
@@ -102,6 +97,10 @@ input {
 .fc-today {
     background: transparent !important;
     border: 3px red solid;
+}
+
+.fc-other-month {
+    color: rgba(0, 0, 0, 0.5)
 }
 
 #artistList {
@@ -123,15 +122,13 @@ input {
     grid-template-rows: minmax(200px, 250px);
     grid-gap: 1em;
     overflow: auto;
-    flex: 3;
     padding: 2em;
-    background-color: #444;
+    background-color: rgba(13, 0, 43, 0.705);
     border: 2px black solid;
 }
 
 #spotifyDiv {
     display: flex;
-    margin: 10%;
     align-items: center;
     background-color: #333;
     justify-content: center;
@@ -147,12 +144,17 @@ input {
 #calendar1 {
     width: 90vw;
     margin: auto;
+    box-shadow: -30px 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .submit-div {
     margin: 2em;
     display: flex;
     justify-content: center;
+    grid-column: 6/8;
+    grid-row: 2;
+    align-self: center;
+    height: 60%;
 }
 
 .artist-card {
@@ -172,7 +174,7 @@ input {
     grid-template-rows: 1em 1fr 1em;
     max-height: 250px;
     align-items: center;
-    border: 2px #eaeaea solid;
+    border: 2px goldenrod solid;
 }
 
 .event-card-text {
@@ -239,6 +241,25 @@ input {
     order: -1;
 }
 
+.modal-content {
+    background-color: #222;
+}
+
+.modal-title {
+    order: -1;
+    flex: 9;
+}
+
+.close {
+    padding: 0;
+    flex: 1;
+    color: white;
+}
+
+.modal-header {
+    display: flex;
+}
+
 .iButton:hover {
     background-color: #fff;
     color: black;
@@ -254,4 +275,18 @@ button {
 
 .hide {
     display: none;
+}
+
+@media screen and (max-width: 500px) {
+    .search-bar {
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+    }
+    .search-results {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+    .event-card {
+        grid-template-rows: 1fr;
+    }
 }
