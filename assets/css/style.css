@@ -1,18 +1,67 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster|Quicksand:500|Roboto+Condensed');
 body {
-    margin: 1em;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    margin: 0 1em;
     padding: 0;
-    background: #eaeaea;
+    background: linear-gradient(181deg, #79D27C, #1C194D);
+    color: #eaeaea;
+    font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+    font-size: 1.3em;
 }
 
 header {
     display: flex;
-    width: 90vw;
+    width: 100vw;
+    padding: 1.25em;
     min-height: 5em;
+    background-color: #222;
 }
 
-div {
+h1 {
+    font-family: 'Lobster', Arial, Helvetica, sans-serif;
+    font-size: 3.4em;
+}
+
+input {
+    margin: 0 1.5em;
+}
+
+.tophalf-wrapper>form {
+    margin: 1.5em;
+    width: 90vw;
+}
+
+.bottomhalf-wrapper {
+    margin: 1.5em;
+    /* background-color: #222; */
+    font-family: 'Roboto Condensed';
+}
+
+.fc-other-month {
+    color: #444
+}
+
+.fc-other-month:hover {
+    color: #fff
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search>label {
+    margin: 0;
+    margin: auto;
+}
+
+.tophalf-wrapper {
+    overflow: hidden;
+    /* background-color: #888; */
     border: 1px black solid;
-    /* min-height: 50px; */
 }
 
 .search-area-wrapper {
@@ -21,7 +70,8 @@ div {
 }
 
 .top-logo {
-    flex: 8
+    flex: 8;
+    color: #1ED760;
 }
 
 .search-bar {
@@ -31,67 +81,167 @@ div {
 }
 
 .search-results {
-    display: flex;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
     width: 90vw;
     margin: auto;
-    height: 80vh;
+    height: 100vh;
 }
 
-.tophalf-wrapper {
-    overflow: hidden;
+.fc-content,
+.fc-event {
+    background-color: rgb(187, 152, 36);
+    color: #eaeaea;
+    min-height: 1.5em;
+    border-radius: 20px;
+    text-align: center;
+    padding: 3px;
+    border-color: transparent;
+}
+
+.fc-today {
+    background: transparent !important;
+    border: 3px red solid;
 }
 
 #artistList {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: .5em;
+    align-content: start;
+    align-items: center;
     overflow: auto;
     flex: 2;
+    background-color: #222;
+    border: 2px black solid;
+    padding: 2em;
 }
 
 #eventList {
     display: grid;
     grid-template-columns: 1fr;
+    grid-template-rows: minmax(200px, 250px);
     grid-gap: 1em;
     overflow: auto;
     flex: 3;
+    padding: 2em;
+    background-color: #444;
+    border: 2px black solid;
+}
+
+#spotifyDiv {
+    display: flex;
+    margin: 10%;
+    align-items: center;
+    background-color: #333;
+    justify-content: center;
+}
+
+#submitInput,
+#logOut {
+    border-radius: 20px;
+    /* background-color: #1ED760;
+    color: #fff; */
+}
+
+#calendar1 {
+    width: 90vw;
+    margin: auto;
 }
 
 .submit-div {
-    margin: .5em;
+    margin: 2em;
     display: flex;
     justify-content: center;
 }
 
-.event-card,
 .artist-card {
     text-align: center;
     line-height: 1.1;
-    display: flex;
-    /* flex-shrink: 0; */
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    border: 1px #1ED760 solid;
+}
+
+.event-card {
+    text-align: center;
+    line-height: 1.1;
+    background-color: #aaa;
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    grid-template-rows: 1em 1fr 1em;
+    max-height: 250px;
+    align-items: center;
+    border: 2px #eaeaea solid;
 }
 
 .event-card-text {
-    flex: 12;
-    max-height: 170px;
+    grid-column: 1/13;
+    grid-row: 2/3;
+    max-height: 200px;
+    color: #444;
 }
 
 .artist-card-text {
+    grid-column: 1/9;
     flex: 8;
     flex-basis: content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 2px #1ED760 solid;
+    border-left: 2px #1ED760 solid;
+}
+
+.artist-card-text>p {
+    display: flex;
+    align-items: center;
+    min-height: 2em;
+    margin: auto;
+}
+
+.artist-card-text:hover {
+    background-color: #eaeaea;
+    color: #333;
+    border-left: 4px #1ED760 solid;
+    border-right: 4px #1ED760 solid;
 }
 
 .interface-e {
     display: flex;
-    flex: 1;
+    grid-column: 13/-1;
+    grid-row: 1/4;
     align-items: center;
     justify-content: center;
     max-height: 170px;
+    min-height: 100%;
+    border-left: 1px #1ED760;
+    background-color: #222;
 }
 
 .interface-a {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column: 9 / span 2;
     flex: 2;
     align-items: center;
+}
+
+.iButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1ED760;
+    min-height: 100%;
+}
+
+.playButton {
+    order: -1;
+}
+
+.iButton:hover {
+    background-color: #fff;
+    color: black;
 }
 
 .interface-a>div {
