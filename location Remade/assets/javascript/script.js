@@ -271,8 +271,21 @@ $(document).ready(function () {
                         if (events.length === 0) {
                             displayError();
                         } else {
-                            $("#eventList").show();
-                            fillEvents(events);
+                            for (var i = 0; i < events.length; i++) {
+                                for (var j = 0; j < events[i].performers.length; j++) {
+                                    var artist = {};
+                                    artist["name"] = events[i].performers[j].name;
+                                    artist["id"] = events[i].performers[j].id
+                                    artist["image"] = events[i].performers[j].image;
+                                    artist["short_name"] = events[i].performers[j].short_name;
+                                    if (!tempArtists.filter(function(e) {
+                                        return e.name === artist['name'];
+                                    }).length > 0) {
+                                        tempArtists.push(artist);
+                                    }
+                                }
+                            }
+                            getArtists(tempArtists);
                         }
                     })
                 }
