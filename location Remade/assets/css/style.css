@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Lobster|Quicksand:500');
 body {
+    min-height: 100%;
     display: grid;
     grid-template-rows: 1fr 1fr;
     margin: 0 1em;
@@ -23,12 +24,18 @@ h1 {
     font-size: 3.4em;
 }
 
+input {
+    margin: 0 1.5em;
+}
+
 .tophalf-wrapper>form {
     margin: 1.5em;
+    width: 90vw;
 }
 
 .bottomhalf-wrapper {
     margin: 1.5em;
+    /* background-color: #222; */
 }
 
 .search {
@@ -40,15 +47,6 @@ h1 {
 .search>label {
     margin: 0;
     margin: auto;
-}
-
-input {
-    margin: 0 1.5em;
-}
-
-div {
-    /* border: 1px black solid; */
-    /* min-height: 50px; */
 }
 
 .tophalf-wrapper {
@@ -81,6 +79,21 @@ div {
     height: 100vh;
 }
 
+.fc-content,
+.fc-event {
+    background-color: #222;
+    color: #eaeaea;
+    min-height: 1.5em;
+    border-radius: 20px;
+    text-align: center;
+    padding: 3px;
+    border-color: #222;
+}
+
+.fc-today {
+    background: rgb(21, 151, 67) !important;
+}
+
 #artistList {
     display: grid;
     grid-template-columns: 1fr;
@@ -97,7 +110,7 @@ div {
 #eventList {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+    grid-template-rows: minmax(200px, 250px);
     grid-gap: 1em;
     overflow: auto;
     flex: 3;
@@ -121,13 +134,16 @@ div {
     color: #fff; */
 }
 
+#calendar1 {
+    width: 90vw;
+    margin: auto;
+}
+
 .submit-div {
-    margin: .5em;
+    margin: 2em;
     display: flex;
     justify-content: center;
 }
-
-.event-card {}
 
 .artist-card {
     text-align: center;
@@ -144,6 +160,8 @@ div {
     display: grid;
     grid-template-columns: repeat(14, 1fr);
     grid-template-rows: 1em 1fr 1em;
+    max-height: 250px;
+    align-items: center;
     border: 2px #eaeaea solid;
 }
 
