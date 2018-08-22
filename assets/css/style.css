@@ -142,7 +142,7 @@ button {
     grid-template-columns: 2fr 3fr;
     width: 90vw;
     margin: auto;
-    min-height: 80vh;
+    height: 80vh;
 }
 
 /* LEFT SIDE - Artists */
@@ -166,6 +166,7 @@ button {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     border: 1px #1ED760 solid;
+    max-height: 42px;
 }
 
 .artist-card-text {
@@ -176,7 +177,7 @@ button {
     align-items: center;
     justify-content: center;
     border-right: 2px #1ED760 solid;
-    border-left: 2px #1ED760 solid;
+    /* border-left: 2px #1ED760 solid; */
 }
 
 .artist-card-text>p {
@@ -201,6 +202,7 @@ button {
 
 .playButton {
     order: -1;
+    height: 100%;
 }
 
 /* RIGHT SIDE - Events & Player */
@@ -252,6 +254,7 @@ button {
     min-height: 100%;
     border-left: 1px #1ED760;
     background-color: #222;
+    height: 100%;
 }
 
 .iButton {
@@ -321,6 +324,15 @@ button {
 }
 
 /* MEDIA QUERIES */
+
+/* @media screen and (max-width: 768px) {
+    .top-logo {
+        flex: 1
+    }
+    .login-area>form>div {
+        grid-column: 1;
+    }
+} */
 
 @media screen and (max-width: 950px) {
     header {
