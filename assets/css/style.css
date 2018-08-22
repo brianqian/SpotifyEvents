@@ -41,7 +41,7 @@ button {
 .tophalf-wrapper {
     overflow: hidden;
     /* border: 1px black solid; */
-    height: 140vh;
+    min-height: 140vh;
 }
 
 .bottomhalf-wrapper {
@@ -142,7 +142,7 @@ button {
     grid-template-columns: 2fr 3fr;
     width: 90vw;
     margin: auto;
-    height: 80vh;
+    min-height: 80vh;
 }
 
 /* LEFT SIDE - Artists */
@@ -322,35 +322,40 @@ button {
 
 /* MEDIA QUERIES */
 
-/* @media screen and (max-width: 768px) {
-    .top-logo {
-        flex: 1
+@media screen and (max-width: 950px) {
+    header {
+        display: flex;
+        flex-direction: column;
     }
-    .login-area>form>div {
+    #passwordText,
+    #emailText {
+        display: flex;
+        justify-content: right;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .search-bar>form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+    .submit-div {
         grid-column: 1;
+        grid-row: 4;
+        height: 2em;
     }
-} */
+    .search {
+        grid-column: span 1;
+    }
+}
 
 @media screen and (max-width: 500px) {
-    .search-bar {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(4, 1fr);
-        justify-items: center;
-    }
-    .search-bar>div {
-        max-height: 2em;
-        align-self: center;
-        justify-self: center;
-    }
     .search-results {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
     }
     .event-card {
         grid-template-rows: 1fr;
-    }
-    .submit-div {
-        grid-column: 3;
-        grid-row: 4;
     }
 }
