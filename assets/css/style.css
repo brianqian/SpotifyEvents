@@ -177,7 +177,7 @@ button {
     align-items: center;
     justify-content: center;
     border-right: 2px #1ED760 solid;
-    border-left: 2px #1ED760 solid;
+    /* border-left: 2px #1ED760 solid; */
 }
 
 .artist-card-text>p {
@@ -202,6 +202,7 @@ button {
 
 .playButton {
     order: -1;
+    height: 100%;
 }
 
 /* RIGHT SIDE - Events & Player */
@@ -253,6 +254,7 @@ button {
     min-height: 100%;
     border-left: 1px #1ED760;
     background-color: #222;
+    height: 100%;
 }
 
 .iButton {
