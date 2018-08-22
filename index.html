@@ -23,11 +23,11 @@
             </div>
             <div class="login-area">
                 <form>
-                    <span class='hideMe'>
+                    <span class='hideMe emailSpan'>
                         <label for="email">Email</label>
                         <input type="email" name="email" id="emailText">
                     </span>
-                    <span class='hideMe'>
+                    <span class='hideMe passSpan'>
                         <label for="password">Password</label>
                         <input type="password" name="password" id="passwordText">
                     </span>
@@ -41,22 +41,24 @@
         </header>
 
         <div class="search-bar">
-            <div class="artist-search search">
-                <label for="eventInput">Artist: </label>
-                <input type="search" id="eventInput" placeholder="Artist">
-            </div>
-            <div class="location-search search">
-                <label for="locationInput">Location: </label>
-                <input type="text" id="locationInput" placeholder="City">
-            </div>
-            <div class="radius-search search">
-                <label for="rangeInput">Radius: </label>
+            <form>
+                <div class="artist-search search">
+                    <label for="eventInput">Artist: </label>
+                    <input type="search" id="eventInput" placeholder="Artist">
+                </div>
+                <div class="location-search search">
+                    <label for="locationInput">Location: </label>
+                    <input type="text" id="locationInput" placeholder="City">
+                </div>
+                <div class="radius-search search">
+                    <label for="rangeInput">Radius: </label>
 
-                <input type="number" id="rangeInput" placeholder="Range(mi)">
-            </div>
-            <div class="submit-div">
-                <button type="submit" id="submitInput">Search!</button>
-            </div>
+                    <input type="number" id="rangeInput" placeholder="Range(mi)">
+                </div>
+                <div class="submit-div">
+                    <button type="submit" id="submitInput">Search!</button>
+                </div>
+            </form>
         </div>
 
 
@@ -92,7 +94,7 @@
             <!-- <button id="button1">Remove event1</button>
             <button id="button2">Remove event2</button> -->
             <button id="button3">Remove All Events</button>
-            <button id="reformat">Reformat View</button>
+            <button id="reformat">Change View</button>
         </div>
         <div id="calendar1"></div>
         <!-- ================================ -->

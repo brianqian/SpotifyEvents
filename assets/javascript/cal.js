@@ -26,8 +26,6 @@ function addToCalendar() {
         }
     }
 
-
-
     $("#calendar1").fullCalendar('removeEvents');
 
     for (var i = 0; i < calendarSource.length; i++) {
@@ -35,8 +33,6 @@ function addToCalendar() {
     }
 
 }
-
-
 
 
 
