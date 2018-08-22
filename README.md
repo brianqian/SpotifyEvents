@@ -147,8 +147,68 @@ Type what you did here
 
 ### [Muhammad](https://github.com/mawais54013)
 
-Type what you did here
+I worked on the Google API to return a autocomplete value of cities that the user has to select. After the user selects the city, the return value type is in zip code so that is access the SeatGeek API for a response. The autocomplete limits the options to only cities so another type including zip code or state will not be accepted. After the user has selected the location, the Google API gets their Lat and Lng to return the results in objects. I went through two loops to access the address of the first loop and then the second loop returns the type of 'postal_code' as the value. 
 
+```
+autocomplete = new google.maps.places.Autocomplete(input, options);
+
+$("#submitInput").on("click", function (event) {
+    search = "";
+    zipcode = "";
+    range = "";
+    event.preventDefault();
+    $("#eventList").empty();
+    var location = autocomplete.getPlace();
+    geocoder = new google.maps.Geocoder();
+    
+    if ($("#locationInput").val()) {
+        lat = location['geometry']['location'].lat();
+        lng = location['geometry']['location'].lng();
+        var latlng = new google.maps.LatLng(lat, lng);
+
+        geocoder.geocode({
+            'latLng': latlng
+        }, function (results) {
+            console.log(results[0].address_components);
+
+            for (var i = 0; i < results[0].address_components.length; i++) {
+                for (var k = 0; k < results[0].address_components[i].types.length; k++) {
+                    if (results[0].address_components[i].types[k] == "postal_code") {
+                        // console.log(results[0].address_components[i])
+                        zipcode = results[0].address_components[i].long_name;
+                        console.log(zipcode);
+                    }
+                }
+            }
+```
+I assisted in creating the calendar by making the remove buttons and setting up the modal in the html. When the user clicks Remove All Events, then all events are deleted in the calendar and then the database is updated. If the user clicks remove event on a modal, then the only the event with a particular id is deleted. 
+
+```
+$("#removeEvent").on("click", function () {
+
+    $("#calendar1").fullCalendar('removeEvents', currentEventId)
+    var temp = database.ref("/users/" + userId);
+    temp.child(currentEventId).remove();
+    delete userEvents[currentEventId];
+    var index = 0;
+    for (var i = 0; i < calendarSource.length; i++) {
+        if (calendarSource[i].id === currentEventId) {
+            index = i;
+        }
+    }
+    calendarSource.splice(index, 1);
+
+})
+
+$("#button3").on("click", function () {
+    $("#calendar1").fullCalendar('removeEvents');
+    userEvents = {};
+    calendarSource = [];
+    var temp = database.ref("/users/" + userId);
+    temp.remove();
+
+});    
+```
 
 ### [Zia](https://github.com/ztabbasi)
 
