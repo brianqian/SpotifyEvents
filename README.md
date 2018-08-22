@@ -1,6 +1,6 @@
 # EventSpotter
 
-Search a city to see what concerts are being held and which artists are in town. Or search for your favorite artist to see where they will be perforing next.
+Search a city to see what concerts are being held and which artists are in town. Or search for your favorite artist to see where they will be performing next.
 
 ![index](index.png)
 
@@ -49,11 +49,11 @@ The site is deployed through [GitHub Pages](https://pages.github.com/) and their
     We used the Spotify API to search for songs based on the user's input. This was to allow the user to preview the music before they buy a ticket to the concert.
 
 ## Our Process
-**Testing APIs:** The first step we took was to look through a list of APIs and see which ones we could realisticly use. What I mean by realisticly is that the key is easily obtained, and that we can return a useable JSON object. In this first step, we through out many ideas like using AirBnB API for housing and using Ticket Master for tickets because their APIs were not easily accessible.
+**Testing APIs:** The first step we took was to look through a list of APIs and see which ones we could realistically use. What I mean by realistically is that the key is easily obtained, and that we can return a useable JSON object. In this first step, we through out many ideas like using AirBnB API for housing and using Ticket Master for tickets because their APIs were not easily accessible.
 
 **Brainstorming:** After testing APIs, we now knew which APIs we could use and we started jotting down idea after idea of what we thought was possible. After going through all the wonderful and not so wonderful ideas, we settled with this event search/calendar website.
 
-**Designing:** We knew we needed a search function, and we needed an area to displace search results. So we created a search bar on top and it would make sense to put search results below that. We also knew we needed a calendar. Some initial thoughts we had were to put the calendar on another page, but then we thought that it would be easier for the user to just scroll down to see changes on the calendar. We also knew we wanted to incorporate spotify into the website, so we made the events swap out with the music player. Next we thought there should be buttons, but their positioning was subject to change. Combining all of what I just typed, we have the result in this sketch. The final webpage looks really similar to our initial design.
+**Designing:** We knew we needed a search function, and we needed an area to displace search results. So we created a search bar on top and it would make sense to put search results below that. We also knew we needed a calendar. Some initial thoughts we had were to put the calendar on another page, but then we thought that it would be easier for the user to just scroll down to see changes on the calendar. We also knew we wanted to incorporate Spotify into the website, so we made the events swap out with the music player. Next we thought there should be buttons, but their positioning was subject to change. Combining all of what I just typed, we have the result in this sketch. The final webpage looks really similar to our initial design.
 
 ![design](sketch.png)
 
@@ -62,7 +62,7 @@ The site is deployed through [GitHub Pages](https://pages.github.com/) and their
 ## Tasks
 ### [Bryan](https://github.com/liangbryan2)
 
-I was in charge of the Firebase database and the SeetGee API. For Firebase, I create the functionality to log in and create a new user. This uses the Firebase.auth() functions and the user inputs. All the data needed for the calendar is stored on the Firebase database so that each unique user would have their calendar populated on login.
+I was in charge of the Firebase database and the SeatGeek API. For Firebase, I created the functionality to log in and create a new user. This uses the Firebase.auth() functions and the user inputs. All the data needed for the calendar is stored on the Firebase database so that each unique user would have their calendar populated on login.
 ```JS
 $("#logIn").on("click", function (e) {
 
@@ -87,7 +87,7 @@ $("#logIn").on("click", function (e) {
         })
     });
 ```
-For SeetGeek, I called multiple ajax calls to gather information about the artiststs and events. In this code snippet, I had to use different ajax calls based on the user inputs because the SeatGeek API only allowed certain parameters for different searches. For example, you can search for events in a specifc area, but you cannot search for an artist in a specific area.
+For SeatGeek, I called multiple ajax calls to gather information about the artists and events. In this code snippet, I had to use different ajax calls based on the user inputs because the SeatGeek API only allowed certain parameters for different searches. For example, you can search for events in a specific area, but you cannot search for an artist in a specific area.
 ```js
 function getEvents(id) {
     if (zipcode && range) {
@@ -142,7 +142,86 @@ I also worked on storing the data from these JSON objects into a easily accessib
 
 ### [Brian](https://github.com/brianq0)
 
-Type what you did here
+I handled the Spotify API and frontend for EventSpotter. After getting our artist list from SeatGeek, we passed in the artist name to search for their artist page on Spotify. From there we could pull their top tracks and pass that URI into our embedded player.
+
+```Javascript
+
+       $.ajax({
+            url: cors + spotifyBase + artistName + "&type=artist",
+            method: "GET",
+            dataType: "json",
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            success: function (result) {},
+            error: function (result) {
+                console.log(result);
+            }
+        }).then(function (response) {
+            console.log(response);
+            $("#spotifyDiv").remove();
+            var newDiv = $("<div id='spotifyDiv'>");
+            if (!response.artists.items[0]) {
+                //In case an artist isn't found, this returns an error message
+                newDiv.append("<p>Artist not found on Spotify!</p>")
+                $("#eventList").hide();
+                $(".search-results").append(newDiv);
+                return;
+
+```
+
+The CSS Grid made organizing the site extremely easy when it came to the dynamically generated content.
+
+```CSS
+.event-card {
+    text-align: center;
+    line-height: 1.1;
+    background-color: #aaa;
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    grid-template-rows: 1em 1fr 1em;
+    max-height: 250px;
+    align-items: center;
+    border: 2px rgb(218, 165, 32) solid;
+}
+```
+
+The majority of this project we worked on individual aspects and eventually had to combine our sides. This required building an object that would act as a bridge between the data that was saved to Firebase and our code in order to limit the number of Ajax calls and give the user better responsiveness in using the site. I was responsible for turning that object into something that FullCalendar.io could parse.
+
+```Javascript
+
+function addToCalendar() {
+    for (prop in userEvents) {
+
+        var noRepeat = true;
+        var convertedTime = userEvents[prop]["datetime_local"];
+        var tempObj = {
+            title: userEvents[prop]["short_title"],
+            start: moment(convertedTime).format("YYYY-MM-DD"),
+            id: 
+            ... //Code shortened here
+        }
+
+        for (var i = 0; i < calendarSource.length; i++) {
+            if (tempObj.id == calendarSource[i].id) {
+                noRepeat = false;
+            }
+        }
+        if (noRepeat) {
+            calendarSource.push(tempObj);
+        }
+    }
+
+    $("#calendar1").fullCalendar('removeEvents');
+
+    for (var i = 0; i < calendarSource.length; i++) {
+        $('#calendar1').fullCalendar('renderEvent', calendarSource[i], [true])
+    }
+
+}
+
+```
+
 
 
 ### [Muhammad](https://github.com/mawais54013)
