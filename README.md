@@ -87,7 +87,7 @@ $("#logIn").on("click", function (e) {
         })
     });
 ```
-For SeetGeek, I called multiple ajax calls to gather information about the artiststs and events. In this code snippet, I had to use different ajax calls based on the user inputs because the SeatGeek API only allowed certain parameters for different searches. For example, you can search for events in a specifc area, but you cannot search for an artist in a specific area.
+For SeatGeek, I called multiple ajax calls to gather information about the artists and events. In this code snippet, I had to use different ajax calls based on the user inputs because the SeatGeek API only allowed certain parameters for different searches. For example, you can search for events in a specific area, but you cannot search for an artist in a specific area.
 ```js
 function getEvents(id) {
     if (zipcode && range) {
