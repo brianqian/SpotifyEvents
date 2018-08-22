@@ -21,7 +21,7 @@ var calendarSource = [];
 var tempArtists = [];
 
 
-
+//Updates Right Side DOM with events from getEvents()
 function fillEvents(events) {
     console.log(events);
     $("#eventList").empty();
@@ -44,7 +44,7 @@ function fillEvents(events) {
     }
 }
 
-
+//SeatGeek ajax call depending on user input
 function getEvents(id) {
     if (zipcode && range) {
         $.ajax({
@@ -94,7 +94,7 @@ function getEvents(id) {
     }
 }
 
-
+//Spotify Ajax call
 function getSpotify(artistName) {
     var spotifyBase = "https://api.spotify.com/v1/search?query=";
     var client_id = "3a13316200434809bcc4a3795fc632dc";
@@ -117,8 +117,6 @@ function getSpotify(artistName) {
     }).then(function (response) {
 
         var token = response.access_token;
-        //search Param should be passed a value that equals seatgeekapi.performers[0]
-
         $.ajax({
             url: cors + spotifyBase + artistName + "&type=artist",
             method: "GET",
@@ -128,7 +126,6 @@ function getSpotify(artistName) {
             },
             success: function (result) {},
             error: function (result) {
-                //called when there is an error
                 console.log(result);
             }
         }).then(function (response) {
@@ -177,14 +174,13 @@ function getArtists(performers) {
         var name = $("<p>");
         name.text(performers[i].short_name);
         artistText.append(name);
-        // artistDiv.append(image);
         artistText.attr("data-id", performers[i].id);
         artistDiv.append(artistText, artistInterface);
         $("#artistList").append(artistDiv);
 
     }
 }
-
+//No events found error
 function displayError() {
     $("#eventList").empty();
     $("#eventList").text("Sorry, no events found. Please try another search");
@@ -209,6 +205,7 @@ $(document).ready(function () {
         $("#eventList").empty();
         var location = autocomplete.getPlace();
         geocoder = new google.maps.Geocoder();
+        //If a location is entered...
         if ($("#locationInput").val()) {
             lat = location['geometry']['location'].lat();
             lng = location['geometry']['location'].lng();
@@ -288,7 +285,7 @@ $(document).ready(function () {
                     })
                 }
             })
-        }
+        } // End of Location If(){...}
         range = $("#rangeInput").val();
         $("#artistList").empty();
         search = $("#eventInput").val();
@@ -297,7 +294,6 @@ $(document).ready(function () {
         console.log(search);
         console.log("before if" + zipcode);
         if (search) {
-            console.log("search");
             $.ajax({
                 url: cors + baseUrl + performer + "?q=" + search + clientId,
                 method: "GET"
@@ -309,9 +305,10 @@ $(document).ready(function () {
             })
         }
 
-    });
+    }); // end of Submit Button listener
+
+
     $(document).on("click", ".artist-card-text", function () {
-        $('#eventError').remove();
         currentArtist = $(this).attr("data-id");
         console.log(currentArtist);
         $("#eventList").show();
@@ -319,24 +316,16 @@ $(document).ready(function () {
         $(`[data-id=${currentArtist}]`).show();
         $("#spotifyDiv").remove();
         getEvents(currentArtist);
-
     })
 
     $(document).on("click", ".playButton", function (e) {
         currentArtistName = $(this).attr("data-name");
         console.log(currentArtistName);
-
         getSpotify(currentArtistName);
-
 
     });
 
-
-    // $(document).on("click", "#backToEvents", function () {
-    //     $("#eventList").show();
-    //     $("#spotifyDiv").remove();
-    // });
-
+    //click listener for events Add button
     $(document).on("click", ".interface-e", function () {
         if (userId) {
             var eventId = $(this).attr('data-event');
@@ -360,7 +349,7 @@ $(document).ready(function () {
         console.log("individual add: " + JSON.stringify(userEvents));
 
     })
-
+    //click listener for Add All button
     $(document).on("click", ".addButton", function () {
 
         if (userId && currentArtist === $(this).attr("data-id")) {
